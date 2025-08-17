@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Portefólio: Redação “O Futuro da Escola”</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="dashboard-aluno.html" aria-label="Voltar ao dashboard">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo">🌙</button>
+        <a href="dashboard-aluno.html">Dashboard</a>
+        <button class="btn btn-green" onclick="LUMI.logout()">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container section">
+    <header class="mb-4">
+      <h1>📑 Redação: “O Futuro da Escola”</h1>
+      <p class="muted">Submetido em <strong>12/08/2025</strong> • Disciplina: <strong>Português (7.º ano)</strong></p>
+      <div class="grid" style="grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px;">
+        <button class="btn btn-secondary" onclick="alert('Demo: editor em breve')">✏️ Abrir no editor</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        <button class="btn" onclick="downloadTXT()">⬇️ Download .txt</button>
+        <button class="btn" onclick="alert('Demo: partilhar link em breve')">🔗 Partilhar</button>
+      </div>
+    </header>
+
+    <!-- Resumo -->
+    <section class="card mt-3">
+      <h2>Resumo</h2>
+      <p>Texto argumentativo sobre metodologias ativas, tecnologia e aprendizagem personalizada, dentro e fora da sala, com mentoria contínua.</p>
+    </section>
+
+    <!-- Metadados -->
+    <section class="card mt-3">
+      <h2>Metadados</h2>
+      <div class="grid grid-3 mt-2">
+        <p><strong>Autor:</strong> <span id="alunoNome">Aluno</span></p>
+        <p><strong>Palavras:</strong> <span id="wordCount">—</span></p>
+        <p><strong>Estado:</strong> Entregue • <span class="muted">aguarda revisão</span></p>
+      </div>
+      <div class="mt-2">
+        <a class="link" href="#" onclick="alert('Demo: rubrica em breve');return false;">Rubrica / Critérios de avaliação</a>
+      </div>
+    </section>
+
+    <!-- Conteúdo -->
+    <section class="card mt-3">
+      <h2>Conteúdo (pré-visualização)</h2>
+      <article id="textoRedacao" style="white-space:pre-wrap" class="mt-1">
+A escola do futuro é um espaço aberto, híbrido e cooperativo, onde o aluno
+tem autonomia para explorar, errar e refletir com o apoio de mentores e tecnologia.
+Os projetos com a comunidade dão sentido ao que se aprende e elevam a motivação.
+A personalização permite que cada estudante avance no seu ritmo, com feedback
+contínuo e objetivos claros. O papel do professor transforma-se: de transmissor
+de conteúdos para mentor, designer de experiências e curador de recursos.
+      </article>
+    </section>
+
+    <!-- Feedback do professor -->
+    <section class="card mt-3">
+      <h2>Feedback do professor</h2>
+      <div id="comentarios" class="mt-2"></div>
+
+      <div class="form mt-3">
+        <div class="form-row">
+          <input id="novoComentario" class="input" type="text" placeholder="Adicionar comentário (ex.: Rever coesão no 2.º parágrafo)" />
+          <button class="btn btn-green" onclick="addComentario()">+ Adicionar</button>
+        </div>
+        <button class="btn mt-2" onclick="alert('Demo: solicitar revisão em breve')">📬 Solicitar revisão</button>
+      </div>
+    </section>
+
+    <!-- Histórico de versões -->
+    <section class="card mt-3">
+      <h2>Histórico de versões</h2>
+      <ul id="versoes" class="mt-2"></ul>
+    </section>
+
+    <!-- Anexos / Portefólio -->
+    <section class="card mt-3">
+      <h2>Anexos</h2>
+      <ul class="mt-1">
+        <li><a class="link" href="#" onclick="downloadTXT();return false;">redacao-futuro.txt</a></li>
+        <li><a class="link" href="#" onclick="window.print();return false;">redacao-futuro.pdf</a> <span class="muted">(gerado na hora)</span></li>
+      </ul>
+    </section>
+
+    <div class="mt-4">
+      <a class="btn" href="dashboard-aluno.html">← Voltar ao Dashboard</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Protege página
+      LUMI?.requireAuth(['aluno']);
+
+      // Nome e email do aluno a partir da sessão
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        const nome = (s.email||'aluno@escola.pt').split('@')[0];
+        const nomeFmt = nome.charAt(0).toUpperCase()+nome.slice(1);
+        document.getElementById('alunoNome').textContent = nomeFmt;
+      }catch(e){}
+
+      // Contagem de palavras do texto
+      updateWordCount();
+
+      // Carregar comentários/versões
+      loadComentarios();
+      loadVersoes();
+    });
+
+    /* ===== Conteúdo & Ações ===== */
+    function getTexto(){
+      return document.getElementById('textoRedacao').textContent.trim();
+    }
+    function updateWordCount(){
+      const words = getTexto().split(/\s+/).filter(Boolean).length;
+      document.getElementById('wordCount').textContent = words;
+    }
+    function downloadTXT(){
+      const blob = new Blob([getTexto()], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'redacao-futuro.txt';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    /* ===== Comentários (localStorage) ===== */
+    function storageKeyComments(){
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        return 'lumi_redacao_comments_' + (s.email || 'anon');
+      }catch{ return 'lumi_redacao_comments_anon'; }
+    }
+    function loadComentarios(){
+      const box = document.getElementById('comentarios');
+      const raw = localStorage.getItem(storageKeyComments());
+      const list = raw ? JSON.parse(raw) : [];
+      box.innerHTML = list.length
+        ? list.map(c => `<div class="card mt-2" style="padding:12px"><strong>${c.autor}</strong> <span class="muted">(${new Date(c.ts).toLocaleString()})</span><p class="mt-1">${escapeHTML(c.text)}</p></div>`).join('')
+        : '<p class="muted">Sem comentários ainda.</p>';
+    }
+    function addComentario(){
+      const inp = document.getElementById('novoComentario');
+      if(!inp.value.trim()) return;
+      const raw = localStorage.getItem(storageKeyComments());
+      const list = raw ? JSON.parse(raw) : [];
+      const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+      list.push({ autor: (s?.role==='professor'?'Professor':'Professor (demo)'), text: inp.value.trim(), ts: new Date().toISOString() });
+      localStorage.setItem(storageKeyComments(), JSON.stringify(list));
+      inp.value = '';
+      loadComentarios();
+      // cria nova versão automática ao comentar
+      addVersao('Comentário registado');
+    }
+
+    /* ===== Histórico de versões ===== */
+    function storageKeyVersions(){
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        return 'lumi_redacao_versions_' + (s.email || 'anon');
+      }catch{ return 'lumi_redacao_versions_anon'; }
+    }
+    function loadVersoes(){
+      const ul = document.getElementById('versoes');
+      let raw = localStorage.getItem(storageKeyVersions());
+      let list = raw ? JSON.parse(raw) : [];
+      if(list.length===0){
+        list = [{ ts:'2025-08-12T10:00:00.000Z', nota:'Submissão inicial' }];
+        localStorage.setItem(storageKeyVersions(), JSON.stringify(list));
+      }
+      ul.innerHTML = list.map(v => `<li>${new Date(v.ts).toLocaleString()} — <span class="muted">${escapeHTML(v.nota||'Atualização')}</span></li>`).join('');
+    }
+    function addVersao(nota){
+      let raw = localStorage.getItem(storageKeyVersions());
+      let list = raw ? JSON.parse(raw) : [];
+      list.push({ ts: new Date().toISOString(), nota });
+      localStorage.setItem(storageKeyVersions(), JSON.stringify(list));
+      loadVersoes();
+    }
+
+    /* ===== Util ===== */
+    function escapeHTML(s){
+      return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+  </script>
+</body>
+</html>

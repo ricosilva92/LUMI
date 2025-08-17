@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Entrar</title>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Estilos -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="light-mode">
+  <!-- Header simples -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Voltar à página inicial">
+        <img src="assets/img/horizontal.png" alt="LUMI" class="h-12 w-auto mr-3" >
+      </a>
+
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <div class="nav-links" role="menu">
+        <a href="index.html">Voltar</a>
+        <button id="toggle-theme" class="btn btn-secondary">🌙 Dark</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="auth">
+    <section class="auth-card fade-up" aria-labelledby="loginTitle">
+      <div class="center mb-3">
+        <img src="assets/img/simbolo.png" alt="LUMI" style="height:30px" />
+      </div>
+
+      <h1 id="loginTitle">Entrar no LUMI</h1>
+      <p class="auth-sub">Acede ao teu painel personalizado.</p>
+
+      <!-- Mensagem de erro controlada por JS -->
+      <div id="err" class="error" role="alert" aria-live="assertive"></div>
+
+      <form id="loginForm" class="form" autocomplete="on">
+        <div class="input-group">
+          <label class="label" for="email">Email</label>
+          <input id="email" class="input" type="email" name="email" placeholder="nome@escola.pt" required />
+        </div>
+
+        <div class="input-group">
+          <label class="label" for="password">Palavra-passe</label>
+          <input id="password" class="input" type="password" name="current-password" placeholder="••••••••" required />
+        </div>
+
+        <div class="form-help">
+          <label><input type="checkbox" id="remember" /> Lembrar-me</label>
+          <a class="link" href="#" onclick="alert('Função demo.');return false;">Esqueci-me</a>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Entrar</button>
+        <p class="form-note">
+          Sem conta? <a class="link" href="#" onclick="alert('Função demo.');return false;">Criar conta</a>
+        </p>
+      </form>
+
+      <!-- Dica (remover em produção) -->
+      <p class="form-note mt-3">
+        <span class="muted">Demo:</span> aluno@escola.pt · Aluno123! | professor@escola.pt · Prof123! | ee@escola.pt · EE123! | admin@escola.pt · Admin123!
+      </p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.getElementById("toggle-theme").addEventListener("click", function () {
+      const body = document.body;
+      body.classList.toggle("dark-mode");
+      body.classList.toggle("light-mode");
+      this.textContent = body.classList.contains("dark-mode") ? "☀️ Light" : "🌙 Dark";
+    });
+  </script>
+</body>
+</html>

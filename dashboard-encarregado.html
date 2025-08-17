@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Dashboard Encarregado de Educação</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Overrides de tema (cores / brand) -->
+  <style>
+    :root{
+      --brand:#5E8B6F; --brand-strong:#4b735c;
+      --bg:#f7faf8; --text:#0f172a; --muted:#64748b;
+      --card:#fff; --line:rgba(2,6,23,.08); --sidebar-bg:#eef5f0;
+    }
+    body{background:var(--bg);color:var(--text)}
+    .card{background:var(--card);border:1px solid var(--line)}
+    .sidebar{background:var(--sidebar-bg);border-right:1px solid var(--line)}
+    .btn.btn-primary{background:var(--brand);border-color:var(--brand)}
+    .btn.btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
+    a,.link{color:var(--brand)}
+    .stat__value{color:var(--brand)}
+
+    .dark-mode{
+      --bg:#0f1419; --text:#e6edf3; --muted:#9aa7b3;
+      --card:#111820; --line:rgba(148,163,184,.18); --sidebar-bg:#0d1712;
+      --brand:#5E8B6F; --brand-strong:#4b735c;
+    }
+    .dark-mode .site-header,.dark-mode .card,.dark-mode .sidebar{background:var(--card)}
+    .dark-mode .card,.dark-mode .sidebar{border-color:var(--line)}
+    /* UX extra */
+    .chip{padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;cursor:pointer}
+    .chip:hover{background:var(--card)}
+    .btn-row{display:flex;gap:.6rem;flex-wrap:wrap}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    @media (max-width:760px){.form-grid{grid-template-columns:1fr}}
+    @media print{
+      .site-header,.sidebar,.btn,.nav,.btn-row,.chip{display:none!important}
+      .content{padding:0}
+      #relOut{white-space:pre-wrap}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Início">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo" aria-pressed="false" aria-label="Ativar modo escuro">🌙</button>
+        <a href="dashboard-encarregado.html">Dashboard</a>
+        <a href="dashboard-aluno.html">Ver como aluno</a>
+        <button class="btn btn-green" onclick="alert('Demo: terminar sessão')">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#overview">🏠 Overview</a></li>
+        <li><a href="#progresso">📈 Progresso</a></li>
+        <li><a href="#frequencia">🗓️ Frequência</a></li>
+        <li><a href="#mensagens">💬 Mensagens</a></li>
+        <li><a href="#autorizacoes">✅ Autorizações</a></li>
+        <li><a href="#relatorios">📑 Relatórios</a></li>
+        <li><a href="#config">⚙️ Config</a></li>
+      </ul>
+    </aside>
+
+    <!-- Conteúdo -->
+    <main class="content">
+      <!-- OVERVIEW -->
+      <section id="overview" class="card">
+        <h1>Olá, Encarregado(a) da <strong>Mariana Silva</strong> 👋</h1>
+        <p class="muted">Resumo do desempenho e participação da Mariana.</p>
+        <div class="grid grid-3 mt-3">
+          <div class="stat"><div class="stat__value">74%</div><div class="stat__label">Média geral</div></div>
+          <div class="stat"><div class="stat__value">92%</div><div class="stat__label">Frequência (mês)</div></div>
+          <div class="stat"><div class="stat__value">3</div><div class="stat__label">Tarefas por concluir</div></div>
+        </div>
+        <h2 class="mt-3">Alertas do LUMI 🤖</h2>
+        <ul>
+          <li>🔔 Matemática: abaixo de 60% em Álgebra.</li>
+          <li>📌 Autorize a visita de estudo (Museu de Leiria) até 22/09.</li>
+          <li>📝 Ficha de leitura para 6ª-feira.</li>
+        </ul>
+      </section>
+
+      <!-- PROGRESSO -->
+      <section id="progresso" class="card mt-3">
+        <h1>Progresso por disciplina</h1>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr><th>Disciplina</th><th>Progresso</th><th>Última avaliação</th><th>Observações</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Português</td><td>82%</td><td>Leitura B1 — 78%</td><td>Boa evolução</td></tr>
+            <tr><td>Matemática</td><td>61%</td><td>Álgebra — 42%</td><td>Reforço necessário</td></tr>
+            <tr><td>Ciências</td><td>76%</td><td>Energia — 70%</td><td>Regular</td></tr>
+            <tr><td>História</td><td>68%</td><td>Descobrimentos — 60%</td><td>Consolidar conteúdos</td></tr>
+            <tr><td>Inglês</td><td>71%</td><td>Reading A2 — 52%</td><td>Prática de leitura</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- FREQUÊNCIA -->
+      <section id="frequencia" class="card mt-3">
+        <h1>Frequência — Setembro</h1>
+        <div class="grid grid-3 mt-2">
+          <div class="stat"><div class="stat__value">20</div><div class="stat__label">Aulas</div></div>
+          <div class="stat"><div class="stat__value">18</div><div class="stat__label">Presenças</div></div>
+          <div class="stat"><div class="stat__value">2</div><div class="stat__label">Faltas (1 just.)</div></div>
+        </div>
+        <div class="grid grid-2 mt-2">
+          <div>
+            <h3>Registo</h3>
+            <ul id="freqReg">
+              <li>12/09 — Falta (doença) — <span class="muted">justificada</span></li>
+              <li>05/09 — Presença</li>
+              <li>04/09 — Presença</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Justificar falta</h3>
+            <div class="form-grid">
+              <input id="jData" class="input" type="date" />
+              <input id="jMotivo" class="input" type="text" placeholder="Motivo (ex.: doença)" />
+            </div>
+            <div class="btn-row mt-2">
+              <button class="btn btn-primary" id="btnJustificar">Enviar justificação</button>
+              <button class="btn" id="btnCSVfreq">Exportar CSV</button>
+            </div>
+            <p class="muted mt-1" id="justStatus"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENSAGENS -->
+      <section id="mensagens" class="card mt-3">
+        <h1>Mensagens</h1>
+        <p class="muted">Fale com o Diretor de Turma / Professores.</p>
+        <div class="chat-box" id="msgBox" aria-live="polite">
+          <div class="msg you">Bom dia, a Mariana está melhor. Obrigado pelo acompanhamento.</div>
+          <div class="msg student">Diretor de Turma: Obrigado pelo retorno! 🚀</div>
+        </div>
+        <div class="btn-row mt-1">
+          <span class="chip" data-template="Podemos falar sobre o estudo de Matemática?">📐 Matemática</span>
+          <span class="chip" data-template="Autorizo a visita de estudo. Obrigado.">✅ Autorizações</span>
+          <span class="chip" data-template="A Mariana vai faltar por motivo de saúde.">🤒 Justificação</span>
+        </div>
+        <div class="form-grid mt-1">
+          <select id="canal" class="select">
+            <option value="DT">Diretor de Turma</option>
+            <option value="PT">Português</option>
+            <option value="MAT">Matemática</option>
+            <option value="CIE">Ciências</option>
+          </select>
+          <input id="msgInput" class="input" type="text" placeholder="Escreva a mensagem e carregue Enter…" />
+        </div>
+        <div class="btn-row mt-1">
+          <button class="btn btn-green" id="sendBtn">Enviar</button>
+          <button class="btn" id="clearBtn">Limpar</button>
+        </div>
+      </section>
+
+      <!-- AUTORIZAÇÕES -->
+      <section id="autorizacoes" class="card mt-3">
+        <h1>Autorizações</h1>
+        <div class="grid grid-2 mt-2">
+          <div class="card" id="autoMuseu">
+            <h3>Visita de Estudo — Museu de Leiria</h3>
+            <p class="muted">Data: 27/09 • Prof. responsável: História</p>
+            <p><strong>Estado:</strong> <span class="muted" id="autoMuseuEstado">Pendente</span></p>
+            <div class="btn-row">
+              <button class="btn btn-primary" onclick="autorizar('autoMuseu', true)">Autorizar</button>
+              <button class="btn" onclick="autorizar('autoMuseu', false)">Recusar</button>
+            </div>
+          </div>
+          <div class="card" id="autoImagem">
+            <h3>Uso de Imagem em Atividades</h3>
+            <p class="muted">Permissão para fotografias em eventos escolares.</p>
+            <p><strong>Estado:</strong> <span class="muted" id="autoImagemEstado">Concedida</span></p>
+            <div class="btn-row">
+              <button class="btn" onclick="autorizar('autoImagem', false)">Revogar</button>
+              <button class="btn btn-primary" onclick="autorizar('autoImagem', true)">Conceder</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RELATÓRIOS -->
+      <section id="relatorios" class="card mt-3">
+        <h1>Relatórios</h1>
+        <div class="form-grid">
+          <label>Período
+            <select id="relPeriodo" class="select">
+              <option value="semana">Última semana</option>
+              <option value="mes">Último mês</option>
+              <option value="periodo">Período letivo</option>
+            </select>
+          </label>
+          <label>Foco
+            <select id="relFoco" class="select">
+              <option value="">Geral</option>
+              <option value="Matemática">Matemática</option>
+              <option value="Português">Português</option>
+              <option value="Ciências">Ciências</option>
+            </select>
+          </label>
+        </div>
+        <div class="btn-row mt-1">
+          <button class="btn btn-primary" id="btnGerar">Gerar</button>
+          <button class="btn" id="btnCopiar">Copiar</button>
+          <button class="btn" id="btnCSV">Exportar CSV</button>
+          <button class="btn" id="btnPrint">Imprimir</button>
+        </div>
+        <pre id="relOut" class="mt-2" style="max-height:320px;overflow:auto">
+=== Relatório (exemplo) ===
+Escolha período e foco e clique em "Gerar".
+        </pre>
+      </section>
+
+      <!-- CONFIG -->
+      <section id="config" class="card mt-3">
+        <h1>Configuração</h1>
+        <p><strong>Notificações:</strong> Ativadas</p>
+        <p><strong>Partilha automática de relatórios por email:</strong> Desativada</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script>
+    /* ===== Tema com ícone + persistência ===== */
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('lumi_theme');
+      applyTheme(saved==='dark'?'dark':'light');
+      btn.addEventListener('click', ()=>{
+        applyTheme(document.body.classList.contains('dark-mode')?'light':'dark');
+      });
+      function applyTheme(mode){
+        document.body.classList.remove('light-mode','dark-mode');
+        document.body.classList.add(mode+'-mode');
+        btn.textContent = mode==='dark' ? '🌙' : '☀️';
+        btn.setAttribute('aria-pressed', mode==='dark' ? 'true':'false');
+        localStorage.setItem('lumi_theme', mode);
+      }
+    })();
+
+    /* ===== Mensagens ===== */
+    const msgBox=document.getElementById('msgBox');
+    const msgInput=document.getElementById('msgInput');
+    const canal=document.getElementById('canal');
+    document.getElementById('sendBtn').addEventListener('click', sendMsg);
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ msgBox.innerHTML=''; });
+    msgInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); sendMsg(); }});
+    document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{ msgInput.value=c.dataset.template; msgInput.focus(); }));
+    function sendMsg(){
+      const t = msgInput.value.trim(); if(!t) return;
+      msgBox.insertAdjacentHTML('beforeend', `<div class="msg you"><strong>${canal.value}:</strong> ${escapeHTML(t)}</div>`);
+      msgInput.value=''; msgBox.scrollTop = msgBox.scrollHeight;
+    }
+    function escapeHTML(s){return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+    /* ===== Autorizações (toggle visual) ===== */
+    function autorizar(id, state){
+      const el = document.getElementById(id+'Estado');
+      if(!el) return;
+      el.textContent = state ? 'Concedida' : 'Recusada';
+      el.className = state ? 'text-ok' : 'text-warn';
+      alert('Registado (demo).');
+    }
+    window.autorizar = autorizar;
+
+    /* ===== Frequência: justificação + CSV ===== */
+    document.getElementById('btnJustificar').addEventListener('click', ()=>{
+      const d = document.getElementById('jData').value;
+      const m = document.getElementById('jMotivo').value.trim();
+      if(!d || !m){ document.getElementById('justStatus').textContent='Indique data e motivo.'; return; }
+      const li = document.createElement('li');
+      li.innerHTML = `${new Date(d).toLocaleDateString('pt-PT')} — Falta — <span class="muted">justificação enviada</span> (${escapeHTML(m)})`;
+      document.getElementById('freqReg').prepend(li);
+      document.getElementById('justStatus').textContent='Justificação enviada (demo).';
+      document.getElementById('jMotivo').value='';
+    });
+
+    document.getElementById('btnCSVfreq').addEventListener('click', ()=>{
+      const rows = [
+        {data:'12/09/2025',estado:'Falta (justificada)'},
+        {data:'05/09/2025',estado:'Presença'},
+        {data:'04/09/2025',estado:'Presença'}
+      ];
+      download('frequencia_mariana.csv', toCSV(rows), 'text/csv');
+    });
+
+    /* ===== Relatórios ===== */
+    const relOut = document.getElementById('relOut');
+    document.getElementById('btnGerar').addEventListener('click', ()=>{
+      const per = document.getElementById('relPeriodo').value;
+      const foco = document.getElementById('relFoco').value || 'Geral';
+      const now = new Date();
+      const linhas = [
+        `=== Relatório (${now.toLocaleDateString()} ${now.toLocaleTimeString()}) ===`,
+        `Aluno: Mariana Silva | Período: ${labelPeriodo(per)} | Foco: ${foco}`,
+        `Média geral: 74% | Frequência: 92% | Tarefas em falta: 3`,
+        '',
+        '- Português: 82% (Leitura B1 78%)',
+        '- Matemática: 61% (Álgebra 42%)',
+        '- Ciências: 76% (Energia 70%)',
+        '- História: 68% (Descobrimentos 60%)',
+        '- Inglês: 71% (Reading A2 52%)',
+        '',
+        'Ações sugeridas: 20 min/dia de Álgebra; 2 leituras semanais curtas.'
+      ];
+      relOut.textContent = linhas.join('\n');
+    });
+    document.getElementById('btnCopiar').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(relOut.textContent); alert('Relatório copiado.'); }
+      catch{ alert('Não foi possível copiar.'); }
+    });
+    document.getElementById('btnCSV').addEventListener('click', ()=>{
+      const rows = [
+        {disciplina:'Português',progresso:82,ultimo:'Leitura B1 78%'},
+        {disciplina:'Matemática',progresso:61,ultimo:'Álgebra 42%'},
+        {disciplina:'Ciências',progresso:76,ultimo:'Energia 70%'},
+        {disciplina:'História',progresso:68,ultimo:'Descobrimentos 60%'},
+        {disciplina:'Inglês',progresso:71,ultimo:'Reading A2 52%'},
+      ];
+      download('relatorio_mariana.csv', toCSV(rows), 'text/csv');
+    });
+    document.getElementById('btnPrint').addEventListener('click', ()=>{ window.print(); });
+
+    /* ===== Util CSV/Download ===== */
+    function toCSV(rows){
+      const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+      const head = Object.keys(rows[0]).map(esc).join(',');
+      const body = rows.map(r => Object.values(r).map(esc).join(',')).join('\n');
+      return head+'\n'+body;
+    }
+    function download(filename, content, type='text/plain'){
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+    function labelPeriodo(p){
+      return p==='semana'?'Última semana':p==='mes'?'Último mês':'Período letivo';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Português (7.º ano): Compreensão de Leitura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="dashboard-aluno.html" aria-label="Voltar ao dashboard">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo">🌙</button>
+        <a href="dashboard-aluno.html">Dashboard</a>
+        <button class="btn btn-green" onclick="LUMI.logout()">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="container section">
+    <header class="mb-4">
+      <h1>Português — Compreensão de Leitura (7.º ano)</h1>
+      <p class="muted">Exercício do dia: lê o texto e responde às questões. Podes usar as <strong>dicas</strong> antes de submeter.</p>
+      <div class="card mt-2">
+        <p><strong>Leitura</strong></p>
+        <p class="mt-1"><em>
+          “A escola do futuro não é apenas um edifício; é uma rede de aprendizagens
+          que acompanha o aluno, dentro e fora da sala. A tecnologia e os projetos
+          com a comunidade permitem que cada estudante avance no seu ritmo, com apoio
+          contínuo de professores-mentores.”
+        </em></p>
+      </div>
+    </header>
+
+    <!-- Painel de estado -->
+    <section class="card">
+      <div class="grid grid-3">
+        <div class="stat">
+          <div class="stat__value"><span id="pt7-score">0</span>/5</div>
+          <div class="stat__label">Pontuação</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value"><span id="pt7-attempts">0</span></div>
+          <div class="stat__label">Tentativas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value"><span id="pt7-last">—</span></div>
+          <div class="stat__label">Última submissão</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Perguntas -->
+    <form id="pt7-form" class="mt-4" onsubmit="return false" aria-describedby="pt7-result">
+      <!-- Q1 -->
+      <section class="card mt-3" aria-labelledby="q1-title">
+        <h2 id="q1-title">Q1. Ideia principal</h2>
+        <p>Segundo o texto, “a escola do futuro é…”</p>
+        <div class="mt-1">
+          <label><input type="radio" name="q1" value="a"> apenas um edifício escolar.</label><br/>
+          <label><input type="radio" name="q1" value="b"> uma rede que acompanha o aluno.</label><br/>
+          <label><input type="radio" name="q1" value="c"> apenas aulas online.</label>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn" onclick="PT7_toggleHint('q1')">💡 Dica</button>
+          <span id="fb-q1" class="ml-2"></span>
+        </div>
+        <p id="hint-q1" class="muted mt-1 hide">Repara na expressão “rede de aprendizagens… que acompanha o aluno”.</p>
+      </section>
+
+      <!-- Q2 -->
+      <section class="card mt-3" aria-labelledby="q2-title">
+        <h2 id="q2-title">Q2. Afirmação do autor</h2>
+        <p>O texto defende que a aprendizagem acontece <em>apenas</em> na escola?</p>
+        <div class="mt-1">
+          <label><input type="radio" name="q2" value="sim"> Sim</label><br/>
+          <label><input type="radio" name="q2" value="nao"> Não</label>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn" onclick="PT7_toggleHint('q2')">💡 Dica</button>
+          <span id="fb-q2" class="ml-2"></span>
+        </div>
+        <p id="hint-q2" class="muted mt-1 hide">Lê “dentro e fora da sala”.</p>
+      </section>
+
+      <!-- Q3 -->
+      <section class="card mt-3" aria-labelledby="q3-title">
+        <h2 id="q3-title">Q3. Inferência</h2>
+        <p>Qual é um benefício provável do modelo descrito?</p>
+        <div class="mt-1">
+          <label><input type="radio" name="q3" value="a"> Mais exames estandardizados.</label><br/>
+          <label><input type="radio" name="q3" value="b"> Mais autonomia e apoio contínuo.</label><br/>
+          <label><input type="radio" name="q3" value="c"> Menos colaboração com a comunidade.</label>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn" onclick="PT7_toggleHint('q3')">💡 Dica</button>
+          <span id="fb-q3" class="ml-2"></span>
+        </div>
+        <p id="hint-q3" class="muted mt-1 hide">Vê “ritmo próprio” e “apoio contínuo de professores-mentores”.</p>
+      </section>
+
+      <!-- Q4 -->
+      <section class="card mt-3" aria-labelledby="q4-title">
+        <h2 id="q4-title">Q4. Vocabulário em contexto</h2>
+        <p>No texto, a palavra <em>“rede”</em> significa sobretudo…</p>
+        <div class="mt-1">
+          <label><input type="radio" name="q4" value="a"> internet e redes sociais.</label><br/>
+          <label><input type="radio" name="q4" value="b"> conjunto articulado de apoios e contextos.</label><br/>
+          <label><input type="radio" name="q4" value="c"> decoração da escola.</label>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn" onclick="PT7_toggleHint('q4')">💡 Dica</button>
+          <span id="fb-q4" class="ml-2"></span>
+        </div>
+        <p id="hint-q4" class="muted mt-1 hide">Pensa em “rede de aprendizagens” como pessoas, lugares e recursos a ajudar.</p>
+      </section>
+
+      <!-- Q5 -->
+      <section class="card mt-3" aria-labelledby="q5-title">
+        <h2 id="q5-title">Q5. Título adequado</h2>
+        <p>Qual destes títulos se adequa melhor ao texto?</p>
+        <div class="mt-1">
+          <label><input type="radio" name="q5" value="a"> A sala é suficiente.</label><br/>
+          <label><input type="radio" name="q5" value="b"> Aprender em qualquer lugar.</label><br/>
+          <label><input type="radio" name="q5" value="c"> Acabar com a escola.</label>
+        </div>
+        <div class="mt-2">
+          <button type="button" class="btn" onclick="PT7_toggleHint('q5')">💡 Dica</button>
+          <span id="fb-q5" class="ml-2"></span>
+        </div>
+        <p id="hint-q5" class="muted mt-1 hide">O texto fala de expandir a escola, não de acabar com ela.</p>
+      </section>
+
+      <!-- Ações -->
+      <section class="card mt-3">
+        <div class="grid" style="grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px;">
+          <button class="btn btn-primary" onclick="PT7_submit()">Submeter</button>
+          <button class="btn" onclick="PT7_showSolutions()">Mostrar soluções</button>
+          <button class="btn" onclick="PT7_reset()">Limpar</button>
+        </div>
+        <p id="pt7-result" class="mt-2" aria-live="polite"></p>
+      </section>
+    </form>
+
+    <div class="mt-4">
+      <a class="btn" href="dashboard-aluno.html">← Voltar ao Dashboard</a>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p>Projeto Escola do Futuro – Leiria • 2025</p></footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      LUMI?.requireAuth(['aluno']);        // protege a página
+      PT7_loadState();                      // repõe pontuação e tentativas
+    });
+
+    // ===== Configuração das respostas =====
+    const PT7_ANSWERS = {
+      q1: 'b',
+      q2: 'nao',
+      q3: 'b',
+      q4: 'b',
+      q5: 'b'
+    };
+
+    // ===== Hints =====
+    function PT7_toggleHint(q){
+      const el = document.getElementById('hint-' + q);
+      if (!el) return;
+      el.classList.toggle('hide');
+    }
+
+    // ===== Helpers =====
+    function PT7_getSelected(name){
+      const el = document.querySelector('input[name="'+name+'"]:checked');
+      return el ? el.value : null;
+    }
+    function PT7_setFeedback(q, ok){
+      const fb = document.getElementById('fb-' + q);
+      if (!fb) return;
+      fb.textContent = ok ? '✅' : '❌';
+      fb.style.color = ok ? 'var(--brand)' : '#ef4444';
+    }
+
+    // ===== Submeter =====
+    function PT7_submit(){
+      let score = 0, total = Object.keys(PT7_ANSWERS).length;
+      for (const q of Object.keys(PT7_ANSWERS)){
+        const val = PT7_getSelected(q);
+        const ok = (val === PT7_ANSWERS[q]);
+        if (ok) score++;
+        PT7_setFeedback(q, ok);
+      }
+      // estado / UI
+      document.getElementById('pt7-score').textContent = score;
+      const result = document.getElementById('pt7-result');
+      result.textContent = score === total
+        ? '🎉 Perfeito! Todas corretas.'
+        : `Tens ${score}/${total}. Revê as questões a vermelho ou abre as dicas.`;
+      // métricas
+      const attemptsEl = document.getElementById('pt7-attempts');
+      const lastEl = document.getElementById('pt7-last');
+      const attempts = (parseInt(localStorage.getItem('lumi_pt7_attempts')||'0',10) + 1);
+      attemptsEl.textContent = attempts;
+      lastEl.textContent = new Date().toLocaleString();
+      // guardar
+      localStorage.setItem('lumi_pt7_score', String(score));
+      localStorage.setItem('lumi_pt7_attempts', String(attempts));
+      localStorage.setItem('lumi_pt7_last', new Date().toISOString());
+    }
+
+    // ===== Mostrar soluções =====
+    function PT7_showSolutions(){
+      for (const [q, ans] of Object.entries(PT7_ANSWERS)){
+        const el = document.querySelector('input[name="'+q+'"][value="'+ans+'"]');
+        if (el) el.checked = true;
+        PT7_setFeedback(q, true);
+      }
+      PT7_submit(); // atualiza métricas/score
+    }
+
+    // ===== Limpar =====
+    function PT7_reset(){
+      document.getElementById('pt7-form').reset();
+      for (const q of Object.keys(PT7_ANSWERS)){
+        const fb = document.getElementById('fb-' + q);
+        if (fb){ fb.textContent = ''; fb.removeAttribute('style'); }
+        const hint = document.getElementById('hint-' + q);
+        if (hint && !hint.classList.contains('hide')) hint.classList.add('hide');
+      }
+      document.getElementById('pt7-result').textContent = '';
+      document.getElementById('pt7-score').textContent = '0';
+    }
+
+    // ===== Carregar estado =====
+    function PT7_loadState(){
+      const s = localStorage.getItem('lumi_pt7_score');
+      const a = localStorage.getItem('lumi_pt7_attempts');
+      const l = localStorage.getItem('lumi_pt7_last');
+      if (s) document.getElementById('pt7-score').textContent = s;
+      if (a) document.getElementById('pt7-attempts').textContent = a;
+      if (l) document.getElementById('pt7-last').textContent = new Date(l).toLocaleString();
+    }
+  </script>
+</body>
+</html>

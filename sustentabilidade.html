@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Projeto: Sustentabilidade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="dashboard-aluno.html" aria-label="Voltar ao dashboard">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo">🌙</button>
+        <a href="dashboard-aluno.html">Dashboard</a>
+        <button class="btn btn-green" onclick="LUMI.logout()">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container section">
+    <!-- Cabeçalho do projeto -->
+    <header class="mb-4">
+      <h1>Projeto 🌱 Sustentabilidade</h1>
+      <p class="muted">
+        Equipa: João, Inês, <span id="aluno">Aluno</span> • Prazo: <strong id="prazo">20/09/2025</strong>
+      </p>
+      <div class="grid grid-3 mt-3">
+        <div class="stat">
+          <div class="stat__value"><span id="kpiProgresso">0</span>%</div>
+          <div class="stat__label">Progresso</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value"><span id="kpiEntregas">0</span></div>
+          <div class="stat__label">Entregas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__value" id="kpiDias">—</div>
+          <div class="stat__label">Dias até ao prazo</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+        <button class="btn" onclick="PS_exportJSON()">⬇️ Exportar estado (.json)</button>
+      </div>
+    </header>
+
+    <!-- Descrição -->
+    <section class="card">
+      <h2>Descrição</h2>
+      <p>
+        Investigação sobre consumo de energia na escola e plano de redução de <strong>15%</strong> em 3 meses.
+        Inclui auditoria, inquérito à comunidade e proposta de medidas (iluminação, equipamentos, hábitos).
+      </p>
+    </section>
+
+    <!-- Tarefas -->
+    <section class="card mt-3">
+      <h2>Tarefas</h2>
+      <p class="muted">Marca como concluídas, adiciona novas e acompanha o progresso.</p>
+
+      <ul id="listaTarefas" class="mt-2" style="list-style:none;padding-left:0"></ul>
+
+      <div class="form mt-3">
+        <div class="form-row">
+          <input id="novaTarefa" class="input" type="text" placeholder="Adicionar tarefa (ex.: Medir consumos no Bloco A)" />
+          <button class="btn btn-green" onclick="PS_addTarefa()">+ Adicionar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cronograma -->
+    <section class="card mt-3">
+      <h2>Cronograma & Marcos</h2>
+      <div class="grid grid-3 mt-2">
+        <div>
+          <p><strong>Semana 1–2</strong></p>
+          <p class="muted">Auditoria energética (salas, iluminação, equipamentos).</p>
+        </div>
+        <div>
+          <p><strong>Semana 3</strong></p>
+          <p class="muted">Questionário à comunidade (alunos, professores, assistentes).</p>
+        </div>
+        <div>
+          <p><strong>Semana 4</strong></p>
+          <p class="muted">Plano de medidas e apresentação à Direção.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Entregas -->
+    <section class="card mt-3">
+      <h2>Entregas</h2>
+      <p class="muted">Anexa ficheiros (PDF/Imagens/Planilhas). Em demo, ficam guardados no teu navegador.</p>
+      <div class="form-row mt-2">
+        <input id="ficheiro" class="input" type="file" />
+        <button class="btn btn-secondary" onclick="PS_addEntrega()">Anexar</button>
+      </div>
+      <ul id="listaEntregas" class="mt-2" style="list-style:none;padding-left:0"></ul>
+    </section>
+
+    <!-- Notas / Comentários -->
+    <section class="card mt-3">
+      <h2>Notas da Equipa</h2>
+      <div id="notas" class="mt-2"></div>
+      <div class="form mt-3">
+        <div class="form-row">
+          <input id="novaNota" class="input" type="text" placeholder="Nova nota/comentário (ex.: Falta resposta do Bloco C)" />
+          <button class="btn" onclick="PS_addNota()">+ Registar</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-4">
+      <a class="btn" href="dashboard-aluno.html">← Voltar ao Dashboard</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // ========= Inicialização =========
+    document.addEventListener('DOMContentLoaded', () => {
+      LUMI?.requireAuth(['aluno']);
+      PS_boot();
+    });
+
+    // ========= Estado & Storage =========
+    const PS_KEYS = {
+      TAREFAS: psKey('tarefas'),
+      ENTREGAS: psKey('entregas'),
+      NOTAS: psKey('notas')
+    };
+
+    function psKey(suf){
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        return `lumi_proj_sust_${s.email || 'anon'}_${suf}`;
+      }catch{ return `lumi_proj_sust_anon_${suf}` }
+    }
+
+    // ========= Util =========
+    function $(sel){ return document.querySelector(sel); }
+    function esc(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    function daysUntil(dateStr){
+      const now = new Date(); const d = new Date(dateStr);
+      return Math.ceil((d - now) / (1000*60*60*24));
+    }
+
+    // ========= Boot =========
+    function PS_boot(){
+      // Nome do aluno
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        const n = (s.email||'aluno@escola.pt').split('@')[0];
+        $('#aluno').textContent = n.charAt(0).toUpperCase()+n.slice(1);
+      }catch{}
+
+      // KPIs
+      const prazo = $('#prazo').textContent.trim(); 
+      const dias = daysUntil(prazo.split('/').reverse().join('-')); // dd/mm/yyyy → yyyy-mm-dd
+      $('#kpiDias').textContent = dias >= 0 ? `${dias}` : 'Prazo passado';
+
+      // Render de tudo
+      PS_renderTarefas();
+      PS_renderEntregas();
+      PS_renderNotas();
+      PS_updateKPIs();
+    }
+
+    // ========= Tarefas =========
+    function PS_loadTarefas(){
+      const raw = localStorage.getItem(PS_KEYS.TAREFAS);
+      if (raw) return JSON.parse(raw);
+      const seed = [
+        {id:cid(), text:'Auditoria energética (salas, iluminação, equipamentos)', done:false},
+        {id:cid(), text:'Questionário à comunidade', done:false},
+        {id:cid(), text:'Proposta de medidas', done:false}
+      ];
+      localStorage.setItem(PS_KEYS.TAREFAS, JSON.stringify(seed));
+      return seed;
+    }
+    function PS_renderTarefas(){
+      const ul = $('#listaTarefas');
+      const list = PS_loadTarefas();
+      ul.innerHTML = list.map(t => `
+        <li class="mt-1">
+          <label style="display:flex;align-items:center;gap:.6rem;">
+            <input type="checkbox" ${t.done?'checked':''} onchange="PS_toggleTarefa('${t.id}', this.checked)" />
+            <span>${esc(t.text)}</span>
+          </label>
+          <button class="btn mt-1" style="padding:.35rem .6rem" onclick="PS_delTarefa('${t.id}')">Remover</button>
+        </li>
+      `).join('');
+    }
+    function PS_toggleTarefa(id, state){
+      const list = PS_loadTarefas().map(t => t.id===id ? {...t, done:state} : t);
+      localStorage.setItem(PS_KEYS.TAREFAS, JSON.stringify(list));
+      PS_updateKPIs();
+    }
+    function PS_addTarefa(){
+      const inp = $('#novaTarefa'); if(!inp.value.trim()) return;
+      const list = PS_loadTarefas(); list.push({id:cid(), text:inp.value.trim(), done:false});
+      localStorage.setItem(PS_KEYS.TAREFAS, JSON.stringify(list));
+      inp.value=''; PS_renderTarefas(); PS_updateKPIs();
+    }
+    function PS_delTarefa(id){
+      const list = PS_loadTarefas().filter(t => t.id!==id);
+      localStorage.setItem(PS_KEYS.TAREFAS, JSON.stringify(list));
+      PS_renderTarefas(); PS_updateKPIs();
+    }
+
+    // ========= Entregas =========
+    function PS_loadEntregas(){
+      const raw = localStorage.getItem(PS_KEYS.ENTREGAS);
+      return raw ? JSON.parse(raw) : [];
+    }
+    function PS_renderEntregas(){
+      const ul = $('#listaEntregas');
+      const list = PS_loadEntregas();
+      if(!list.length){ ul.innerHTML = '<li class="muted">Sem entregas ainda.</li>'; return; }
+      ul.innerHTML = list.map(f => `
+        <li class="mt-1">
+          <a class="link" href="${esc(f.url)}" download="${esc(f.nome)}">${esc(f.nome)}</a>
+          <span class="muted">(${new Date(f.ts).toLocaleString()})</span>
+          <button class="btn" style="padding:.35rem .6rem" onclick="PS_delEntrega('${f.id}')">Remover</button>
+        </li>
+      `).join('');
+    }
+    function PS_addEntrega(){
+      const inp = $('#ficheiro'); if(!inp.files?.length) return;
+      const file = inp.files[0];
+      const url = URL.createObjectURL(file);
+      const list = PS_loadEntregas();
+      list.push({ id:cid(), nome:file.name, url, ts:new Date().toISOString() });
+      localStorage.setItem(PS_KEYS.ENTREGAS, JSON.stringify(list));
+      inp.value=''; PS_renderEntregas(); PS_updateKPIs();
+    }
+    function PS_delEntrega(id){
+      const list = PS_loadEntregas().filter(f => f.id!==id);
+      localStorage.setItem(PS_KEYS.ENTREGAS, JSON.stringify(list));
+      PS_renderEntregas(); PS_updateKPIs();
+    }
+
+    // ========= Notas =========
+    function PS_loadNotas(){
+      const raw = localStorage.getItem(PS_KEYS.NOTAS);
+      return raw ? JSON.parse(raw) : [];
+    }
+    function PS_renderNotas(){
+      const box = $('#notas');
+      const list = PS_loadNotas();
+      box.innerHTML = list.length ? list.map(n => `
+        <div class="card mt-2" style="padding:12px">
+          <strong>${esc(n.autor)}</strong>
+          <span class="muted">(${new Date(n.ts).toLocaleString()})</span>
+          <p class="mt-1">${esc(n.text)}</p>
+        </div>`).join('') : '<p class="muted">Sem notas ainda.</p>';
+    }
+    function PS_addNota(){
+      const inp = $('#novaNota'); if(!inp.value.trim()) return;
+      const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+      const autor = (s?.email||'Aluno').split('@')[0];
+      const list = PS_loadNotas();
+      list.push({ id:cid(), autor: autor.charAt(0).toUpperCase()+autor.slice(1), text: inp.value.trim(), ts:new Date().toISOString() });
+      localStorage.setItem(PS_KEYS.NOTAS, JSON.stringify(list));
+      inp.value=''; PS_renderNotas();
+    }
+
+    // ========= KPIs =========
+    function PS_updateKPIs(){
+      // Progresso = % tarefas concluídas; Entregas = n.º itens
+      const tarefas = PS_loadTarefas();
+      const done = tarefas.filter(t=>t.done).length;
+      const total = tarefas.length || 1;
+      const progresso = Math.round((done/total)*100);
+      $('#kpiProgresso').textContent = String(progresso);
+      $('#kpiEntregas').textContent = String(PS_loadEntregas().length);
+    }
+
+    // ========= Export JSON =========
+    function PS_exportJSON(){
+      const data = {
+        projeto: "Sustentabilidade",
+        prazo: $('#prazo').textContent.trim(),
+        kpis: {
+          progresso: parseInt($('#kpiProgresso').textContent,10),
+          entregas: parseInt($('#kpiEntregas').textContent,10),
+          dias_restantes: $('#kpiDias').textContent
+        },
+        tarefas: PS_loadTarefas(),
+        entregas: PS_loadEntregas(),
+        notas: PS_loadNotas()
+      };
+      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='sustentabilidade_estado.json';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    // ========= ID simples =========
+    function cid(){ return Math.random().toString(36).slice(2,10); }
+  </script>
+</body>
+</html>

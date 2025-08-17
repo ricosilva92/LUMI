@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Dashboard do Aluno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    /* pequenos estilos para o sidebar com sublinks */
+    .side-nav { list-style:none; padding:0; margin:0; }
+    .side-link { display:block; padding:.55rem .8rem; border-radius:.5rem; text-decoration:none; }
+    .side-link.is-active { background:rgba(94,139,111,.12); font-weight:600; }
+    details.side-group { margin:.25rem 0; }
+    details.side-group > summary { cursor:pointer; padding:.55rem .8rem; border-radius:.5rem; }
+    .side-sublist { list-style:none; padding:.25rem .5rem .5rem 1.25rem; margin:0; }
+    .side-sublink { display:block; padding:.35rem .4rem; border-radius:.4rem; text-decoration:none; opacity:.9; }
+    .side-sublink:hover { opacity:1; background:rgba(94,139,111,.08); }
+    /* realces coerentes com a tua paleta */
+    :root{ --brand:#5E8B6F; }
+    .side-link.is-active, a { color: var(--brand); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Voltar à página inicial">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" aria-pressed="false" title="Alternar modo" aria-label="Ativar modo escuro">🌙</button>
+        <a href="#ajuda">Ajuda</a>
+        <a href="dashboard-professor.html">Professor</a>
+        <a href="dashboard-encarregado.html">Encarregado</a>
+        <button class="btn btn-green" onclick="alert('Demo: terminar sessão')">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Navegação do aluno">
+      <nav>
+        <ul class="side-nav">
+          <li><a class="side-link" href="#overview" data-tab="overview">🏠 Overview</a></li>
+          <li><a class="side-link" href="#progresso" data-tab="progresso">📊 Progresso</a></li>
+
+          <li>
+            <details class="side-group" open>
+              <summary>📝 Exercícios</summary>
+              <ul class="side-sublist">
+                <li><a class="side-sublink" href="#exercicios" data-tab="exercicios">Painel de exercícios</a></li>
+                <li><a class="side-sublink" href="portugues.html">Português</a></li>
+                <li><a class="side-sublink" href="sustentabilidade.html">Sustentabilidade</a></li>
+              </ul>
+            </details>
+          </li>
+
+          <li><a class="side-link" href="#projetos" data-tab="projetos">🧩 Projetos</a></li>
+
+          <li>
+            <details class="side-group">
+              <summary>📁 Portefólio</summary>
+              <ul class="side-sublist">
+                <li><a class="side-sublink" href="#portfolio" data-tab="portfolio">Painel do portefólio</a></li>
+                <li><a class="side-sublink" href="redacao-futuro-da-escola.html">Redação: Futuro da Escola</a></li>
+              </ul>
+            </details>
+          </li>
+
+          <li><a class="side-link" href="#chat" data-tab="chat">💬 Chat</a></li>
+          <li><a class="side-link" href="#relatorios" data-tab="relatorios">📑 Relatórios</a></li>
+          <li><a class="side-link" href="#perfil" data-tab="perfil">👤 Perfil</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Conteúdo -->
+    <main class="content">
+      <!-- OVERVIEW -->
+      <section id="overview" class="tab-content active" aria-labelledby="overviewTitle">
+        <div class="dashboard-header">
+          <h1 id="overviewTitle">Olá, <span id="studentName">Aluno</span> 👋</h1>
+          <p class="muted">Esta semana já concluíste <strong id="kpiSemana">72%</strong> dos teus objetivos. Continua!</p>
+        </div>
+
+        <div class="grid grid-3">
+          <section class="card" aria-labelledby="doneTitle">
+            <h2 id="doneTitle">O que já fizeste ✅</h2>
+            <ul class="mt-2">
+              <li>Matemática — Álgebra (100%)</li>
+              <li>História — Descobrimentos (80%)</li>
+              <li>Inglês — Reading B1 (60%)</li>
+            </ul>
+          </section>
+
+          <section class="card" aria-labelledby="todoTitle">
+            <h2 id="todoTitle">O que falta 🚀</h2>
+            <ul class="mt-2">
+              <li><a class="link" href="portugues.html">Português — Análise de Texto</a> (pendente)</li>
+              <li>Ciências — Energia (incompleto)</li>
+              <li>EV — Projeto “Luzes” (esboço)</li>
+            </ul>
+          </section>
+
+          <section class="card" aria-labelledby="alertTitle">
+            <h2 id="alertTitle">Sugestões do LUMI 🤖</h2>
+            <ul class="mt-2">
+              <li>Rever <strong>Equações de 1º grau</strong> (última tentativa 42%).</li>
+              <li>Ótimo progresso em <strong>História</strong> (+10% esta semana) 🎉</li>
+              <li>Experimenta o <a class="link" href="#exercicios" data-tab="exercicios">exercício do dia</a> para desbloquear 2 XP.</li>
+            </ul>
+          </section>
+        </div>
+
+        <!-- Exercício do dia -->
+        <section class="card mt-4" aria-labelledby="dailyExTitle">
+          <h2 id="dailyExTitle">Exercício do dia 📝</h2>
+          <p class="mt-1">Resolve: <strong>12 × (3 + 2)</strong> = ?</p>
+
+          <div class="options" role="group" aria-label="Escolhe uma opção">
+            <label><input type="radio" name="ex1" value="50"> 50</label>
+            <label><input type="radio" name="ex1" value="60"> 60</label>
+            <label><input type="radio" name="ex1" value="15"> 15</label>
+            <label><input type="radio" name="ex1" value="24"> 24</label>
+          </div>
+
+          <div class="btn-row mt-2">
+            <button class="btn btn-primary" id="btnSubmeterEx">Submeter</button>
+            <button class="btn" id="btnDica">Ver dica</button>
+            <button class="btn" id="btnSolucao">Mostrar resolução</button>
+          </div>
+
+          <p id="feedbackExercicio" class="mt-2"></p>
+          <div id="dica" class="hint">Dica: resolve primeiro dentro dos parênteses 😉</div>
+          <div id="solucao" class="hint">Resolução: (3 + 2) = 5 → 12 × 5 = <strong>60</strong>.</div>
+        </section>
+      </section>
+
+      <!-- PROGRESSO -->
+      <section id="progresso" class="tab-content" aria-labelledby="progTitle">
+        <h1 id="progTitle">O teu Progresso</h1>
+        <p class="muted">Resumo por disciplina.</p>
+        <div class="grid grid-3 mt-3">
+          <div class="stat"><div class="stat__value">72%</div><div class="stat__label">Matemática</div></div>
+          <div class="stat"><div class="stat__value">85%</div><div class="stat__label">Português</div></div>
+          <div class="stat"><div class="stat__value">63%</div><div class="stat__label">História</div></div>
+          <div class="stat"><div class="stat__value">78%</div><div class="stat__label">Ciências</div></div>
+          <div class="stat"><div class="stat__value">54%</div><div class="stat__label">Inglês</div></div>
+          <div class="stat"><div class="stat__value">90%</div><div class="stat__label">EV/ET</div></div>
+        </div>
+      </section>
+
+      <!-- EXERCÍCIOS -->
+      <section id="exercicios" class="tab-content" aria-labelledby="exTitle">
+        <h1 id="exTitle">Exercícios</h1>
+        <p class="muted">Seleciona um exercício e treina. O feedback é imediato.</p>
+
+        <div class="grid grid-3 mt-3">
+          <div class="card">
+            <h3>Matemática — Álgebra</h3>
+            <p>Resolver equações simples.</p>
+            <a class="btn btn-secondary mt-2" href="#overview" data-tab="overview">Abrir “Exercício do dia”</a>
+          </div>
+          <div class="card">
+            <h3>Português — Leitura</h3>
+            <p>Compreensão de texto e vocabulário.</p>
+            <a class="btn mt-2" href="portugues.html">Começar Português</a>
+          </div>
+          <div class="card">
+            <h3>História — Descobrimentos</h3>
+            <p>Sequência cronológica e causas.</p>
+            <a class="btn mt-2" href="#" onclick="alert('Demo: em breve.')">Começar</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJETOS -->
+      <section id="projetos" class="tab-content" aria-labelledby="projTitle">
+        <h1 id="projTitle">Projetos Ativos</h1>
+        <div class="grid grid-3 mt-3">
+          <div class="card">
+            <h3>🌱 Sustentabilidade</h3>
+            <p>Equipa: João, Inês, <span id="shortName">Aluno</span></p>
+            <p><strong>Prazo:</strong> 20/09/2025</p>
+            <a class="btn btn-green mt-2" href="sustentabilidade.html">Ver detalhes</a>
+          </div>
+          <div class="card">
+            <h3>💻 Robótica</h3>
+            <p>Equipa: <span id="shortName2">Aluno</span>, Tiago</p>
+            <p><strong>Prazo:</strong> 30/09/2025</p>
+            <a class="btn btn-green mt-2" href="#" onclick="alert('Demo: em breve.')">Ver detalhes</a>
+          </div>
+          <div class="card">
+            <h3>🎭 Teatro</h3>
+            <p>Equipa: Turma 7ºB</p>
+            <p><strong>Prazo:</strong> 05/10/2025</p>
+            <a class="btn btn-green mt-2" href="#" onclick="alert('Demo: em breve.')">Ver detalhes</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTEFÓLIO -->
+      <section id="portfolio" class="tab-content" aria-labelledby="portTitle">
+        <h1 id="portTitle">Portefólio Digital</h1>
+        <div class="grid grid-3 mt-3">
+          <div class="card">
+            <h3>📑 Redação: “O Futuro da Escola”</h3>
+            <p>Enviado a 12/08/2025</p>
+            <a class="btn btn-secondary mt-2" href="redacao-futuro-da-escola.html">Ver</a>
+          </div>
+          <div class="card">
+            <h3>📑 Projeto de Ciências</h3>
+            <p>Enviado a 05/08/2025</p>
+            <a class="btn btn-secondary mt-2" href="#" onclick="alert('Demo: em breve.')">Ver</a>
+          </div>
+          <div class="card">
+            <h3>📑 Exercício de Matemática</h3>
+            <p>Enviado a 02/08/2025</p>
+            <a class="btn btn-secondary mt-2" href="#" onclick="alert('Demo: em breve.')">Ver</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAT -->
+      <section id="chat" class="tab-content" aria-labelledby="chatTitle">
+        <h1 id="chatTitle">Chat com o teu Mentor</h1>
+        <div id="chatBox" class="chat-box" aria-live="polite" aria-label="Mensagens do chat">
+          <div class="msg student"><strong>Mentor:</strong> Bem-vindo! Como te posso ajudar hoje?</div>
+        </div>
+        <div class="chips">
+          <span class="chip" data-template="Não percebi a 2.ª pergunta do exercício.">❓ Dúvida exercício</span>
+          <span class="chip" data-template="Podes sugerir um vídeo sobre Álgebra?">🎥 Vídeo Álgebra</span>
+          <span class="chip" data-template="Preciso de uma dica para leitura.">📚 Dica leitura</span>
+        </div>
+        <div class="chat-input">
+          <input id="chatMsg" class="input" type="text" placeholder="Escreve uma mensagem..." />
+          <button class="btn btn-green" id="btnSendChat">Enviar</button>
+          <button class="btn" id="btnClearChat">Limpar</button>
+        </div>
+      </section>
+
+      <!-- RELATÓRIOS -->
+      <section id="relatorios" class="tab-content" aria-labelledby="repTitle">
+        <h1 id="repTitle">Relatórios</h1>
+        <p class="muted">Gera um resumo do teu progresso para partilhar.</p>
+        <div class="btn-row mt-1">
+          <button class="btn btn-primary" id="btnGerarRel">Gerar Relatório</button>
+          <button class="btn" id="btnCopiarRel">Copiar</button>
+          <button class="btn" id="btnCSVRel">Exportar CSV</button>
+          <button class="btn" id="btnPrintRel">Imprimir</button>
+        </div>
+        <pre id="relatorioBox" class="mt-3" aria-label="Conteúdo do relatório">
+=== Relatório (exemplo) ===
+Carrega em "Gerar Relatório".
+        </pre>
+      </section>
+
+      <!-- PERFIL -->
+      <section id="perfil" class="tab-content" aria-labelledby="profTitle">
+        <h1 id="profTitle">Perfil</h1>
+        <div class="grid grid-3 mt-3">
+          <div class="card">
+            <h3>Identificação</h3>
+            <p><strong>Nome:</strong> <span id="perfilNome">Aluno</span></p>
+            <p><strong>Email:</strong> <span id="perfilEmail">aluno@escola.pt</span></p>
+            <p><strong>Ano:</strong> 7º ano</p>
+          </div>
+          <div class="card">
+            <h3>Preferências</h3>
+            <p>Modo: <span id="prefModo">Claro</span></p>
+            <p>Notificações: Ativas</p>
+            <button class="btn mt-2" onclick="alert('Demo: editar preferências em breve.')">Editar</button>
+          </div>
+          <div class="card">
+            <h3>Segurança</h3>
+            <p>Último acesso: <span id="perfilUltimo">—</span></p>
+            <button class="btn mt-2" onclick="alert('Demo: redefinir palavra-passe em breve.')">Redefinir palavra-passe</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer" id="ajuda">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script>
+    /* Tema com ícone e persistência */
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('lumi_theme');
+      apply(saved==='dark'?'dark':'light');
+      btn.addEventListener('click', ()=> apply(document.body.classList.contains('dark-mode')?'light':'dark'));
+      function apply(mode){
+        document.body.classList.remove('light-mode','dark-mode');
+        document.body.classList.add(mode+'-mode');
+        btn.textContent = mode==='dark' ? '🌙' : '☀️';
+        btn.setAttribute('aria-pressed', mode==='dark' ? 'true' : 'false');
+        document.getElementById('prefModo').textContent = mode==='dark'?'Escuro':'Claro';
+        localStorage.setItem('lumi_theme', mode);
+      }
+    })();
+
+    /* Nome/email do aluno (se houver sessão gravada) */
+    (function(){
+      try{
+        const s = JSON.parse(localStorage.getItem('lumi_session')||'{}');
+        const nome = (s.email||'aluno@escola.pt').split('@')[0];
+        const nomeFmt = nome.charAt(0).toUpperCase()+nome.slice(1);
+        ['studentName','shortName','shortName2','perfilNome'].forEach(id=>{
+          const el = document.getElementById(id); if(el) el.textContent = nomeFmt;
+        });
+        const emailEl = document.getElementById('perfilEmail'); if(emailEl) emailEl.textContent = s.email || 'aluno@escola.pt';
+        const lastEl = document.getElementById('perfilUltimo'); if(lastEl) lastEl.textContent = new Date(s.ts || Date.now()).toLocaleString('pt-PT');
+      }catch{}
+    })();
+
+    /* Exercício do dia */
+    (function(){
+      const feedback = document.getElementById('feedbackExercicio');
+      const dica = document.getElementById('dica');
+      const sol = document.getElementById('solucao');
+      document.getElementById('btnDica').addEventListener('click', ()=> dica.classList.toggle('visible'));
+      document.getElementById('btnSolucao').addEventListener('click', ()=> sol.classList.toggle('visible'));
+      document.getElementById('btnSubmeterEx').addEventListener('click', ()=>{
+        const sel = document.querySelector('input[name="ex1"]:checked');
+        if(!sel){ feedback.textContent='Escolhe uma opção.'; feedback.className='bad mt-2'; return; }
+        if(sel.value==='60'){
+          feedback.innerHTML='✅ Correto! +2 XP';
+          feedback.className='good mt-2';
+          document.getElementById('kpiSemana').textContent = '74%';
+        }else{
+          feedback.innerHTML='❌ Não é bem isso. Tenta outra vez ou vê a dica.';
+          feedback.className='bad mt-2';
+        }
+      });
+    })();
+
+    /* Chat simples */
+    (function(){
+      const box = document.getElementById('chatBox');
+      const inp = document.getElementById('chatMsg');
+      document.getElementById('btnSendChat').addEventListener('click', send);
+      document.getElementById('btnClearChat').addEventListener('click', ()=> box.innerHTML='');
+      inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); send(); }});
+      document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', ()=>{
+        inp.value = ch.dataset.template; inp.focus();
+      }));
+      function send(){
+        const t = inp.value.trim(); if(!t) return;
+        box.insertAdjacentHTML('beforeend', `<div class="msg you">${escapeHTML(t)}</div>`);
+        inp.value=''; box.scrollTop = box.scrollHeight;
+      }
+      function escapeHTML(s){return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+    })();
+
+    /* Relatórios do aluno */
+    (function(){
+      const box = document.getElementById('relatorioBox');
+      document.getElementById('btnGerarRel').addEventListener('click', ()=>{
+        const now = new Date();
+        const nome = document.getElementById('perfilNome').textContent;
+        const linhas = [
+          `=== Relatório (${now.toLocaleDateString('pt-PT')} ${now.toLocaleTimeString('pt-PT')}) ===`,
+          `Aluno: ${nome} | Ano: 7º`,
+          `Progresso — MAT 72% | POR 85% | HIS 63% | CIE 78% | ING 54% | EV 90%`,
+          '',
+          'Últimas atividades:',
+          '- Álgebra: concluído ✅',
+          '- Descobrimentos: 80% ⏳',
+          '- Reading B1: 60% ⏳',
+          '',
+          'Sugerido: 15min/dia de Álgebra; 2 leituras curtas/semana.'
+        ];
+        box.textContent = linhas.join('\n');
+      });
+      document.getElementById('btnCopiarRel').addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(box.textContent); alert('Relatório copiado.'); }
+        catch{ alert('Não foi possível copiar.'); }
+      });
+      document.getElementById('btnCSVRel').addEventListener('click', ()=>{
+        const rows = [
+          {disciplina:'Matemática',progresso:72},
+          {disciplina:'Português',progresso:85},
+          {disciplina:'História',progresso:63},
+          {disciplina:'Ciências',progresso:78},
+          {disciplina:'Inglês',progresso:54},
+          {disciplina:'EV/ET',progresso:90}
+        ];
+        const csv = toCSV(rows);
+        download('relatorio_aluno.csv', csv, 'text/csv');
+      });
+      document.getElementById('btnPrintRel').addEventListener('click', ()=> window.print());
+
+      function toCSV(rows){
+        const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+        const head = Object.keys(rows[0]).map(esc).join(',');
+        const body = rows.map(r => Object.values(r).map(esc).join(',')).join('\n');
+        return head+'\n'+body;
+      }
+      function download(filename, content, type='text/plain'){
+        const blob = new Blob([content], {type});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href=url; a.download=filename;
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }
+    })();
+
+    /* Navegação por hash (#overview, #progresso, …) */
+    (function(){
+      const links = Array.from(document.querySelectorAll('[data-tab]'));
+      function setActive(tab){
+        // tabs
+        document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
+        (document.getElementById(tab)||document.getElementById('overview')).classList.add('active');
+        // links
+        links.forEach(a=>{
+          const on = a.dataset.tab===tab;
+          a.classList.toggle('is-active', on);
+          if(on){ a.setAttribute('aria-current','page'); } else { a.removeAttribute('aria-current'); }
+        });
+      }
+      function fromHash(){
+        const tab = (location.hash||'#overview').replace('#','');
+        setActive(tab);
+      }
+      // activar por clique (mantendo hash)
+      links.forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          const tab = a.dataset.tab;
+          if(tab){ e.preventDefault(); location.hash = tab; } // isto dispara hashchange
+        });
+      });
+      window.addEventListener('hashchange', fromHash);
+      // arranque
+      fromHash();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Dashboard do Professor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Overrides de tema (cores / brand) -->
+  <style>
+    :root{
+      /* Paleta clara */
+      --brand: #5E8B6F;
+      --brand-strong:#4b735c;
+      --bg: #f7faf8;
+      --text: #0f172a;
+      --muted: #64748b;
+      --card: #ffffff;
+      --line: rgba(2,6,23,0.08);
+      --sidebar-bg: #eef5f0;
+    }
+    /* Aplica variáveis base (caso o style.css não o faça) */
+    body{ background: var(--bg); color: var(--text); }
+    .card{ background: var(--card); border:1px solid var(--line); }
+    .sidebar{ background: var(--sidebar-bg); border-right:1px solid var(--line); }
+    .nav .btn.btn-primary, .btn.btn-primary{ background: var(--brand); border-color: var(--brand); }
+    .btn.btn-primary:hover{ background: var(--brand-strong); border-color: var(--brand-strong); }
+    a, .link{ color: var(--brand); }
+
+    /* Paleta escura (ativa com .dark-mode no <body>) */
+    .dark-mode{
+      --bg: #0f1419;
+      --text: #e6edf3;
+      --muted: #9aa7b3;
+      --card: #111820;
+      --line: rgba(148,163,184,0.18);
+      --sidebar-bg: #0d1712;
+      --brand: #5E8B6F;           /* mantém a brand */
+      --brand-strong:#4b735c;
+    }
+    .dark-mode .site-header,
+    .dark-mode .card,
+    .dark-mode .sidebar{ background: var(--card); }
+    .dark-mode .card, .dark-mode .sidebar{ border-color: var(--line); }
+    .dark-mode a, .dark-mode .link{ color: var(--brand); }
+    .stat__value{ color: var(--brand); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Início">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo" aria-pressed="false" aria-label="Ativar modo escuro">🌙</button>
+        <a href="dashboard-professor.html">Dashboard</a>
+        <a href="dashboard-aluno.html">Ver como aluno</a>
+        <button class="btn btn-green">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#overview">🏠 Overview</a></li>
+        <li><a href="#turmas">🏫 Turmas</a></li>
+        <li><a href="#alunos">👨‍🎓 Alunos</a></li>
+        <li><a href="#avaliacao">📝 Avaliação</a></li>
+        <li><a href="#mensagens">💬 Mensagens</a></li>
+        <li><a href="#relatorios">📑 Relatórios</a></li>
+        <li><a href="#config">⚙️ Config</a></li>
+      </ul>
+    </aside>
+
+    <!-- Conteúdo -->
+    <main class="content">
+      <!-- OVERVIEW -->
+      <section id="overview" class="card">
+        <h1>Olá, Professor João 👋</h1>
+        <p class="muted">Resumo rápido das tuas turmas hoje.</p>
+        <div class="grid grid-3 mt-3">
+          <div class="stat"><div class="stat__value">3</div><div class="stat__label">Turmas</div></div>
+          <div class="stat"><div class="stat__value">69</div><div class="stat__label">Alunos</div></div>
+          <div class="stat"><div class="stat__value">8</div><div class="stat__label">Intervenções pendentes</div></div>
+        </div>
+        <h2 class="mt-3">Alertas do LUMI 🤖</h2>
+        <ul>
+          <li>🔔 3 alunos abaixo de 60% em Álgebra (7º A).</li>
+          <li>🎉 7º B subiu +8% em História esta semana.</li>
+          <li>📌 7º C: 5 exercícios pendentes em Ciências.</li>
+        </ul>
+      </section>
+
+      <!-- TURMAS -->
+      <section id="turmas" class="card mt-3">
+        <h1>Turmas atribuídas</h1>
+        <div class="grid grid-3 mt-2">
+          <div class="card"><h3>7º A</h3><p class="muted">24 alunos</p></div>
+          <div class="card"><h3>7º B</h3><p class="muted">22 alunos</p></div>
+          <div class="card"><h3>7º C</h3><p class="muted">23 alunos</p></div>
+        </div>
+      </section>
+
+      <!-- ALUNOS -->
+      <section id="alunos" class="card mt-3">
+        <h1>Alunos — Progresso</h1>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr>
+              <th>Aluno</th><th>Turma</th><th>Disciplina</th><th>Progresso</th><th>Último resultado</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mariana Silva<br><span class="muted">mariana@escola.pt</span></td>
+              <td>7º A</td><td>Matemática</td><td>72%</td><td>Álgebra 42%</td><td>🟡 Atenção</td>
+            </tr>
+            <tr>
+              <td>João Reis<br><span class="muted">joao@escola.pt</span></td>
+              <td>7º A</td><td>Português</td><td>85%</td><td>Leitura B1 78%</td><td>🟢 Ok</td>
+            </tr>
+            <tr>
+              <td>Inês Ramos<br><span class="muted">ines@escola.pt</span></td>
+              <td>7º B</td><td>História</td><td>63%</td><td>Descobrimentos 60%</td><td>🟡 Atenção</td>
+            </tr>
+            <tr>
+              <td>Tiago Lopes<br><span class="muted">tiago@escola.pt</span></td>
+              <td>7º C</td><td>Ciências</td><td>78%</td><td>Energia 70%</td><td>🟢 Ok</td>
+            </tr>
+            <tr>
+              <td>Rita Costa<br><span class="muted">rita@escola.pt</span></td>
+              <td>7º B</td><td>Inglês</td><td>54%</td><td>Reading A2 52%</td><td>🔴 Crítico</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- AVALIAÇÃO -->
+      <section id="avaliacao" class="card mt-3">
+        <h1>Avaliação</h1>
+        <p class="muted">Últimos registos</p>
+        <ul>
+          <li>Mariana Silva — Nota: <strong>42</strong> — Precisa reforçar Álgebra</li>
+          <li>João Reis — Nota: <strong>78</strong> — Bom desempenho</li>
+          <li>Rita Costa — Nota: <strong>52</strong> — Atenção à gramática</li>
+        </ul>
+      </section>
+
+      <!-- MENSAGENS -->
+      <section id="mensagens" class="card mt-3">
+        <h1>Mensagens à Turma</h1>
+        <div class="chat-box" id="msgBox" aria-live="polite">
+          <div class="msg you">📢 Estudem para o teste de Matemática amanhã!</div>
+          <div class="msg student">Ok professor 👍</div>
+          <div class="msg student">Vamos rever os exercícios em casa.</div>
+        </div>
+        <div class="quick-replies" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem">
+          <span class="chip" data-template="Excelente trabalho hoje! 👏" style="padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;cursor:pointer">👏 Excelente trabalho</span>
+          <span class="chip" data-template="Tragam o manual amanhã. 📘" style="padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;cursor:pointer">📘 Manual amanhã</span>
+          <span class="chip" data-template="Entreguem a ficha 3 até 6ª-feira. 🗓️" style="padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;cursor:pointer">🗓️ Ficha 3 até 6ª</span>
+        </div>
+        <div class="chat-composer" style="display:flex;gap:.6rem;margin-top:.6rem">
+          <input id="msgInput" class="input" type="text" placeholder="Escreve uma mensagem e carrega Enter…" />
+          <button class="btn btn-green nowrap" id="sendBtn">Enviar</button>
+          <button class="btn nowrap" id="clearBtn">Limpar</button>
+        </div>
+      </section>
+
+      <!-- RELATÓRIOS -->
+      <section id="relatorios" class="card mt-3">
+        <h1>Relatórios</h1>
+        <div class="form-row" style="gap:.6rem;flex-wrap:wrap">
+          <label>Turma:
+            <select id="relTurma" class="select">
+              <option value="7º A">7º A</option><option value="7º B">7º B</option><option value="7º C">7º C</option>
+            </select>
+          </label>
+          <label>Disciplina:
+            <select id="relDisc" class="select">
+              <option value="">Todas</option><option>Português</option><option>Matemática</option><option>História</option><option>Ciências</option><option>Inglês</option>
+            </select>
+          </label>
+          <div class="btn-row" style="display:flex;gap:.6rem;flex-wrap:wrap">
+            <button class="btn btn-primary" id="btnGerar">Gerar</button>
+            <button class="btn" id="btnCopiar">Copiar</button>
+            <button class="btn" id="btnCSV">Exportar CSV</button>
+            <button class="btn" id="btnPrint">Imprimir</button>
+          </div>
+        </div>
+        <pre id="relOut" class="mt-3" style="max-height:320px;overflow:auto">
+=== Relatório (exemplo) ===
+Selecione turma/disciplinas e clique em "Gerar".
+        </pre>
+      </section>
+
+      <!-- CONFIG -->
+      <section id="config" class="card mt-3">
+        <h1>Configuração</h1>
+        <p><strong>Notificações:</strong> Ativadas</p>
+        <p><strong>Partilha com EE:</strong> Desativada</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script>
+    /* ===== Tema com ícone correto + persistência ===== */
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('lumi_theme');
+      const initial = saved === 'dark' ? 'dark' : 'light';
+      applyTheme(initial);
+
+      btn.addEventListener('click', () => {
+        const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+        applyTheme(next);
+      });
+
+      function applyTheme(mode){
+        document.body.classList.remove('light-mode','dark-mode');
+        document.body.classList.add(mode+'-mode');
+        // ícone e acessibilidade
+        if(mode==='dark'){
+          btn.textContent = '🌙';
+          btn.setAttribute('aria-label','Modo escuro ativo — mudar para claro');
+          btn.setAttribute('aria-pressed','true');
+        }else{
+          btn.textContent = '☀️';
+          btn.setAttribute('aria-label','Modo claro ativo — mudar para escuro');
+          btn.setAttribute('aria-pressed','false');
+        }
+        localStorage.setItem('lumi_theme', mode);
+      }
+    })();
+
+    /* ===== Mensagens (UX simples) ===== */
+    const msgBox = document.getElementById('msgBox');
+    const msgInput = document.getElementById('msgInput');
+    document.getElementById('sendBtn').addEventListener('click', sendMsg);
+    document.getElementById('clearBtn').addEventListener('click', () => { msgBox.innerHTML=''; });
+    msgInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendMsg(); }});
+    document.querySelectorAll('.chip').forEach(chip=>{
+      chip.addEventListener('click', ()=>{ msgInput.value = chip.dataset.template; msgInput.focus(); });
+    });
+    function sendMsg(){
+      const text = msgInput.value.trim(); if(!text) return;
+      msgBox.insertAdjacentHTML('beforeend', `<div class="msg you">${escapeHTML(text)}</div>`);
+      msgInput.value=''; msgBox.scrollTop = msgBox.scrollHeight;
+    }
+    function escapeHTML(s){return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+    /* ===== Relatórios (dummy) ===== */
+    const ALUNOS = [
+      { nome:'Mariana Silva', email:'mariana@escola.pt', turma:'7º A', disc:'Matemática', prog:72, ultimo:'Álgebra 42%', estado:'🟡 Atenção' },
+      { nome:'João Reis', email:'joao@escola.pt', turma:'7º A', disc:'Português', prog:85, ultimo:'Leitura B1 78%', estado:'🟢 Ok' },
+      { nome:'Inês Ramos', email:'ines@escola.pt', turma:'7º B', disc:'História', prog:63, ultimo:'Descobrimentos 60%', estado:'🟡 Atenção' },
+      { nome:'Tiago Lopes', email:'tiago@escola.pt', turma:'7º C', disc:'Ciências', prog:78, ultimo:'Energia 70%', estado:'🟢 Ok' },
+      { nome:'Rita Costa', email:'rita@escola.pt', turma:'7º B', disc:'Inglês', prog:54, ultimo:'Reading A2 52%', estado:'🔴 Crítico' }
+    ];
+    const relTurma = document.getElementById('relTurma');
+    const relDisc  = document.getElementById('relDisc');
+    const relOut   = document.getElementById('relOut');
+
+    document.getElementById('btnGerar').addEventListener('click', ()=>{
+      const turma = relTurma.value, disc = relDisc.value;
+      const rows = ALUNOS.filter(a => a.turma===turma && (disc==='' || a.disc===disc));
+      const now = new Date();
+      const head = `=== Relatório (${now.toLocaleDateString()} ${now.toLocaleTimeString()}) ===\nTurma: ${turma} | Disciplina: ${disc||'Todas'}\nTotal alunos: ${rows.length}\n`;
+      const body = rows.length ? '\n' + rows.map(a => `- ${a.nome} — ${a.disc}: ${a.prog}% (${a.ultimo}) ${a.estado}`).join('\n') : '\n(sem resultados)';
+      relOut.textContent = head + body;
+    });
+    document.getElementById('btnCopiar').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(relOut.textContent); alert('Relatório copiado.'); }
+      catch{ alert('Não foi possível copiar.'); }
+    });
+    document.getElementById('btnCSV').addEventListener('click', ()=>{
+      const turma = relTurma.value, disc = relDisc.value;
+      const rows = ALUNOS.filter(a => a.turma===turma && (disc==='' || a.disc===disc))
+        .map(a => ({nome:a.nome,email:a.email,turma:a.turma,disciplina:a.disc,progresso:a.prog,ultimo:a.ultimo,estado:a.estado}));
+      if(!rows.length){ alert('Sem dados para exportar.'); return; }
+      const csv = toCSV(rows);
+      download('relatorio.csv', csv, 'text/csv');
+    });
+    document.getElementById('btnPrint').addEventListener('click', ()=>{ window.print(); });
+
+    function toCSV(rows){
+      const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+      const head = Object.keys(rows[0]).map(esc).join(',');
+      const body = rows.map(r => Object.values(r).map(esc).join(',')).join('\n');
+      return head+'\n'+body;
+    }
+    function download(filename, content, type='text/plain'){
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

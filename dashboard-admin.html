@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUMI — Dashboard do Diretor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Overrides/afinamentos de tema (cores / brand / pequenos componentes) -->
+  <style>
+    :root{
+      --brand:#5E8B6F; --brand-strong:#4b735c;
+      --bg:#f7faf8; --text:#0f172a; --muted:#64748b;
+      --card:#ffffff; --line:rgba(2,6,23,.08); --sidebar-bg:#eef5f0;
+    }
+    body{background:var(--bg);color:var(--text)}
+    .site-header,.card,.sidebar{background:var(--card)}
+    .card,.sidebar{border:1px solid var(--line)}
+    .sidebar{background:var(--sidebar-bg)}
+    .btn.btn-primary{background:var(--brand);border-color:var(--brand)}
+    .btn.btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
+    a,.link{color:var(--brand)}
+    .stat__value{color:var(--brand)}
+
+    .dark-mode{
+      --bg:#0f1419; --text:#e6edf3; --muted:#9aa7b3;
+      --card:#111820; --line:rgba(148,163,184,.18); --sidebar-bg:#0d1712;
+      --brand:#5E8B6F; --brand-strong:#4b735c;
+    }
+    .dark-mode .site-header,.dark-mode .card,.dark-mode .sidebar{background:var(--card)}
+    .dark-mode .card,.dark-mode .sidebar{border-color:var(--line)}
+    .dark-mode a,.dark-mode .link{color:var(--brand)}
+
+    /* Componentes rápidos */
+    .chip{padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;cursor:pointer;display:inline-block}
+    .chip:hover{background:var(--card)}
+    .btn-row{display:flex;gap:.6rem;flex-wrap:wrap}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    @media (max-width:860px){.form-grid{grid-template-columns:1fr}}
+    .progress{width:100%;height:10px;background:rgba(2,6,23,.08);border-radius:999px;overflow:hidden}
+    .progress>span{display:block;height:100%;background:var(--brand)}
+    table th, table td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
+    table th{background:rgba(94,139,111,.12)}
+    @media print{
+      .site-header,.sidebar,.btn,.nav,.btn-row,.chip{display:none!important}
+      .content{padding:0}
+      #relOut{white-space:pre-wrap}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html" aria-label="Início">
+        <img src="assets/img/horizontal.png" alt="LUMI" style="height:40px" />
+        <span>LUMI</span>
+      </a>
+      <div class="nav-links">
+        <button id="themeToggle" class="btn" title="Alternar modo" aria-pressed="false" aria-label="Ativar modo escuro">🌙</button>
+        <a href="dashboard-diretor.html">Diretor</a>
+        <a href="dashboard-professor.html">Professor</a>
+        <a href="dashboard-aluno.html">Aluno</a>
+        <a href="dashboard-encarregado.html">Encarregado</a>
+        <button class="btn btn-green" onclick="alert('Demo: terminar sessão')">Sair</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul>
+        <li><a href="#overview">🏠 Overview</a></li>
+        <li><a href="#escola">🏫 Escola</a></li>
+        <li><a href="#turmas">👩‍🏫 Turmas</a></li>
+        <li><a href="#professores">👨‍🏫 Professores</a></li>
+        <li><a href="#risco">⚠️ Alunos em risco</a></li>
+        <li><a href="#projetos">🧩 Projetos</a></li>
+        <li><a href="#mensagens">💬 Mensagens</a></li>
+        <li><a href="#relatorios">📑 Relatórios</a></li>
+        <li><a href="#config">⚙️ Config</a></li>
+      </ul>
+    </aside>
+
+    <!-- Conteúdo -->
+    <main class="content">
+      <!-- OVERVIEW -->
+      <section id="overview" class="card">
+        <h1>Olá, Diretor(a) 👋</h1>
+        <p class="muted">Visão geral da escola — dados demo.</p>
+        <div class="grid grid-3 mt-3">
+          <div class="stat"><div class="stat__value" id="kpiAlunos">—</div><div class="stat__label">Alunos</div></div>
+          <div class="stat"><div class="stat__value" id="kpiProfs">—</div><div class="stat__label">Professores</div></div>
+          <div class="stat"><div class="stat__value" id="kpiTurmas">—</div><div class="stat__label">Turmas</div></div>
+        </div>
+        <div class="grid grid-3 mt-3">
+          <div class="stat"><div class="stat__value" id="kpiMedia">—</div><div class="stat__label">Média global</div></div>
+          <div class="stat"><div class="stat__value" id="kpiAssid">—</div><div class="stat__label">Assiduidade (mês)</div></div>
+          <div class="stat"><div class="stat__value" id="kpiRisco">—</div><div class="stat__label">Alunos em risco</div></div>
+        </div>
+        <h2 class="mt-3">Alertas do LUMI 🤖</h2>
+        <ul id="alertasList">
+          <li>🔔 8 alunos abaixo de 60% em Matemática (7º ano).</li>
+          <li>🧪 Avaliação diagnóstica de Ciências na próxima semana.</li>
+          <li>📌 Projeto “Sustentabilidade” com entrega parcial dia 20/09.</li>
+        </ul>
+      </section>
+
+      <!-- ESCOLA -->
+      <section id="escola" class="card mt-3">
+        <h1>Escola — indicadores</h1>
+        <div class="grid grid-3 mt-2">
+          <div>
+            <p class="muted">Capacidade</p>
+            <div class="progress"><span style="width: 82%"></span></div>
+            <small>82% de ocupação</small>
+          </div>
+          <div>
+            <p class="muted">Participação em clubes</p>
+            <div class="progress"><span style="width: 46%"></span></div>
+            <small>46% dos alunos</small>
+          </div>
+          <div>
+            <p class="muted">Projetos ativos</p>
+            <div class="progress"><span style="width: 64%"></span></div>
+            <small>64% do plano anual</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- TURMAS -->
+      <section id="turmas" class="card mt-3">
+        <h1>Turmas</h1>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr><th>Turma</th><th>Alunos</th><th>Média</th><th>Assiduidade</th><th>Risco</th></tr>
+          </thead>
+          <tbody id="turmasTbody">
+            <tr><td>7º A</td><td>24</td><td>71%</td><td>93%</td><td>3</td></tr>
+            <tr><td>7º B</td><td>22</td><td>69%</td><td>91%</td><td>4</td></tr>
+            <tr><td>7º C</td><td>23</td><td>73%</td><td>95%</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- PROFESSORES -->
+      <section id="professores" class="card mt-3">
+        <h1>Professores</h1>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr><th>Nome</th><th>Departamento</th><th>Turmas</th><th>Carga (h)</th></tr>
+          </thead>
+          <tbody id="profsTbody">
+            <tr><td>Joana Martins</td><td>Português</td><td>4</td><td>18</td></tr>
+            <tr><td>Rui Figueiredo</td><td>Matemática</td><td>5</td><td>22</td></tr>
+            <tr><td>Teresa Alves</td><td>Ciências</td><td>3</td><td>16</td></tr>
+            <tr><td>Paulo Nunes</td><td>História</td><td>3</td><td>16</td></tr>
+            <tr><td>Sara Costa</td><td>Inglês</td><td>4</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ALUNOS EM RISCO -->
+      <section id="risco" class="card mt-3">
+        <h1>Alunos em risco (Top 8)</h1>
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr><th>Aluno</th><th>Turma</th><th>Área</th><th>Último resultado</th><th>Score risco</th></tr>
+          </thead>
+          <tbody id="riscoTbody">
+            <tr><td>Rita Costa</td><td>7º B</td><td>Inglês</td><td>Reading A2 52%</td><td>86</td></tr>
+            <tr><td>Mariana Silva</td><td>7º A</td><td>Matemática</td><td>Álgebra 42%</td><td>81</td></tr>
+            <tr><td>Diogo Ferreira</td><td>7º B</td><td>História</td><td>Descobrimentos 55%</td><td>79</td></tr>
+            <tr><td>Beatriz Lopes</td><td>7º C</td><td>Ciências</td><td>Energia 58%</td><td>74</td></tr>
+            <tr><td>André Ramos</td><td>7º A</td><td>Matemática</td><td>Fráções 50%</td><td>72</td></tr>
+            <tr><td>Catarina Reis</td><td>7º B</td><td>Português</td><td>Leitura B1 59%</td><td>71</td></tr>
+            <tr><td>Tomás Sousa</td><td>7º A</td><td>Ciências</td><td>Recursos 57%</td><td>70</td></tr>
+            <tr><td>Gonçalo Pinto</td><td>7º C</td><td>Matemática</td><td>Álgebra 55%</td><td>69</td></tr>
+          </tbody>
+        </table>
+        <div class="btn-row mt-2">
+          <button class="btn" id="btnCsvRisco">Exportar CSV</button>
+        </div>
+      </section>
+
+      <!-- PROJETOS -->
+      <section id="projetos" class="card mt-3">
+        <h1>Projetos estratégicos</h1>
+        <div class="grid grid-3 mt-2">
+          <div class="card">
+            <h3>🌱 Sustentabilidade</h3>
+            <p class="muted">Owner: Inês / 7º A+C • Prazo: 20/09</p>
+            <div class="progress mt-1"><span style="width:62%"></span></div>
+            <small>62% concluído</small>
+          </div>
+          <div class="card">
+            <h3>🤖 Robótica</h3>
+            <p class="muted">Owner: Rui / 7º B • Prazo: 30/10</p>
+            <div class="progress mt-1"><span style="width:45%"></span></div>
+            <small>45% concluído</small>
+          </div>
+          <div class="card">
+            <h3>📰 Jornal Escolar</h3>
+            <p class="muted">Owner: Sara / 7º A • Prazo: 15/11</p>
+            <div class="progress mt-1"><span style="width:28%"></span></div>
+            <small>28% concluído</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENSAGENS -->
+      <section id="mensagens" class="card mt-3">
+        <h1>Mensagens à comunidade</h1>
+        <div class="chat-box" id="msgBox" aria-live="polite">
+          <div class="msg you"><strong>Direção:</strong> Obrigado pela participação no Dia do Desporto! 💚</div>
+          <div class="msg student">DT 7º A: Excelente adesão dos alunos.</div>
+        </div>
+        <div class="btn-row mt-1">
+          <span class="chip" data-template="Reunião geral de professores amanhã às 17h.">🕔 Reunião profs</span>
+          <span class="chip" data-template="Entrega de autorizações até sexta-feira.">✅ Autorizações</span>
+          <span class="chip" data-template="Parabéns à equipa de Robótica pela demonstração!">🤖 Parabéns Robótica</span>
+        </div>
+        <div class="form-grid mt-1">
+          <select id="canal" class="select">
+            <option value="Todos">Todos</option>
+            <option value="Professores">Professores</option>
+            <option value="Alunos">Alunos</option>
+            <option value="Encarregados">Encarregados</option>
+          </select>
+          <input id="msgInput" class="input" type="text" placeholder="Escreva a mensagem e carregue Enter…" />
+        </div>
+        <div class="btn-row mt-1">
+          <button class="btn btn-green" id="sendBtn">Enviar</button>
+          <button class="btn" id="clearBtn">Limpar</button>
+        </div>
+      </section>
+
+      <!-- RELATÓRIOS -->
+      <section id="relatorios" class="card mt-3">
+        <h1>Relatórios</h1>
+        <div class="form-grid">
+          <label>Período
+            <select id="relPeriodo" class="select">
+              <option value="semana">Última semana</option>
+              <option value="mes">Último mês</option>
+              <option value="periodo">Período letivo</option>
+            </select>
+          </label>
+          <label>Foco
+            <select id="relFoco" class="select">
+              <option value="Geral">Geral</option>
+              <option value="Risco">Alunos em risco</option>
+              <option value="Disciplina">Desempenho por disciplina</option>
+              <option value="Assiduidade">Assiduidade</option>
+            </select>
+          </label>
+        </div>
+        <div class="btn-row mt-1">
+          <button class="btn btn-primary" id="btnGerar">Gerar</button>
+          <button class="btn" id="btnCopiar">Copiar</button>
+          <button class="btn" id="btnCSV">Exportar CSV</button>
+          <button class="btn" id="btnPrint">Imprimir</button>
+        </div>
+        <pre id="relOut" class="mt-2" style="max-height:340px;overflow:auto">
+=== Relatório (exemplo) ===
+Escolha período e foco e clique em "Gerar".
+        </pre>
+      </section>
+
+      <!-- CONFIG -->
+      <section id="config" class="card mt-3">
+        <h1>Configuração</h1>
+        <p><strong>Alertas automáticos:</strong> Ativados</p>
+        <p><strong>Partilha de relatórios por email:</strong> Desativada</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <script>
+    /* ===== Tema com ícone + persistência ===== */
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('lumi_theme');
+      applyTheme(saved==='dark'?'dark':'light');
+      btn.addEventListener('click', ()=>applyTheme(document.body.classList.contains('dark-mode')?'light':'dark'));
+      function applyTheme(mode){
+        document.body.classList.remove('light-mode','dark-mode');
+        document.body.classList.add(mode+'-mode');
+        btn.textContent = mode==='dark' ? '🌙' : '☀️';
+        btn.setAttribute('aria-pressed', mode==='dark' ? 'true':'false');
+        localStorage.setItem('lumi_theme', mode);
+      }
+    })();
+
+    /* ===== Dummy data para KPIs/Relatórios ===== */
+    const TURMAS = [
+      {id:'7A', nome:'7º A', alunos:24, media:71, assid:93, risco:3},
+      {id:'7B', nome:'7º B', alunos:22, media:69, assid:91, risco:4},
+      {id:'7C', nome:'7º C', alunos:23, media:73, assid:95, risco:1}
+    ];
+    const PROFS = [
+      {nome:'Joana Martins', depto:'Português', turmas:4, horas:18},
+      {nome:'Rui Figueiredo', depto:'Matemática', turmas:5, horas:22},
+      {nome:'Teresa Alves', depto:'Ciências', turmas:3, horas:16},
+      {nome:'Paulo Nunes', depto:'História', turmas:3, horas:16},
+      {nome:'Sara Costa', depto:'Inglês', turmas:4, horas:20}
+    ];
+    const RISCO = [
+      {nome:'Rita Costa', turma:'7º B', area:'Inglês', ultimo:'Reading A2 52%', score:86},
+      {nome:'Mariana Silva', turma:'7º A', area:'Matemática', ultimo:'Álgebra 42%', score:81},
+      {nome:'Diogo Ferreira', turma:'7º B', area:'História', ultimo:'Descobrimentos 55%', score:79},
+      {nome:'Beatriz Lopes', turma:'7º C', area:'Ciências', ultimo:'Energia 58%', score:74},
+      {nome:'André Ramos', turma:'7º A', area:'Matemática', ultimo:'Frações 50%', score:72},
+      {nome:'Catarina Reis', turma:'7º B', area:'Português', ultimo:'Leitura B1 59%', score:71},
+      {nome:'Tomás Sousa', turma:'7º A', area:'Ciências', ultimo:'Recursos 57%', score:70},
+      {nome:'Gonçalo Pinto', turma:'7º C', area:'Matemática', ultimo:'Álgebra 55%', score:69}
+    ];
+    const ALUNOS_TOTAL = TURMAS.reduce((a,t)=>a+t.alunos,0);
+    const MEDIA_GLOBAL = Math.round(TURMAS.reduce((a,t)=>a+t.media,0)/TURMAS.length);
+    const ASSID_GLOBAL = Math.round(TURMAS.reduce((a,t)=>a+t.assid,0)/TURMAS.length);
+    const RISCO_TOTAL  = TURMAS.reduce((a,t)=>a+t.risco,0);
+
+    // KPIs
+    document.getElementById('kpiAlunos').textContent = ALUNOS_TOTAL;
+    document.getElementById('kpiProfs').textContent = PROFS.length;
+    document.getElementById('kpiTurmas').textContent = TURMAS.length;
+    document.getElementById('kpiMedia').textContent = MEDIA_GLOBAL + '%';
+    document.getElementById('kpiAssid').textContent = ASSID_GLOBAL + '%';
+    document.getElementById('kpiRisco').textContent = RISCO_TOTAL;
+
+    /* ===== Mensagens ===== */
+    const msgBox=document.getElementById('msgBox');
+    const msgInput=document.getElementById('msgInput');
+    const canal=document.getElementById('canal');
+    document.getElementById('sendBtn').addEventListener('click', sendMsg);
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ msgBox.innerHTML=''; });
+    msgInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); sendMsg(); }});
+    document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{ msgInput.value=c.dataset.template; msgInput.focus(); }));
+    function sendMsg(){
+      const t = msgInput.value.trim(); if(!t) return;
+      msgBox.insertAdjacentHTML('beforeend', `<div class="msg you"><strong>${canal.value}:</strong> ${escapeHTML(t)}</div>`);
+      msgInput.value=''; msgBox.scrollTop = msgBox.scrollHeight;
+    }
+    function escapeHTML(s){return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+    /* ===== Exportações simples ===== */
+    function toCSV(rows){
+      const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+      const head = Object.keys(rows[0]).map(esc).join(',');
+      const body = rows.map(r => Object.values(r).map(esc).join(',')).join('\n');
+      return head+'\n'+body;
+    }
+    function download(filename, content, type='text/plain'){
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download=filename;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+    document.getElementById('btnCsvRisco').addEventListener('click', ()=>{
+      const rows = RISCO.map(r => ({aluno:r.nome,turma:r.turma,area:r.area,ultimo:r.ultimo,score:r.score}));
+      download('alunos_risco.csv', toCSV(rows), 'text/csv');
+    });
+
+    /* ===== Relatórios ===== */
+    const relOut = document.getElementById('relOut');
+    document.getElementById('btnGerar').addEventListener('click', ()=>{
+      const per = document.getElementById('relPeriodo').value;
+      const foco = document.getElementById('relFoco').value;
+      const now = new Date();
+      const titulo = `=== Relatório (${now.toLocaleDateString('pt-PT')} ${now.toLocaleTimeString('pt-PT')}) ===`;
+      const linha1 = `Período: ${labelPeriodo(per)} | Foco: ${foco}`;
+      const linha2 = `Alunos: ${ALUNOS_TOTAL} | Professores: ${PROFS.length} | Turmas: ${TURMAS.length}`;
+      const linha3 = `Média global: ${MEDIA_GLOBAL}% | Assiduidade: ${ASSID_GLOBAL}% | Risco: ${RISCO_TOTAL}`;
+      let detalhe = '\n';
+
+      if(foco==='Risco'){
+        detalhe += RISCO.slice(0,8).map(r=>`- ${r.nome} [${r.turma}] — ${r.area}: ${r.ultimo} — score ${r.score}`).join('\n');
+      }else if(foco==='Disciplina'){
+        detalhe += [
+          `Português: ${(82).toFixed(0)}%`,
+          `Matemática: ${(68).toFixed(0)}%`,
+          `Ciências: ${(74).toFixed(0)}%`,
+          `História: ${(70).toFixed(0)}%`,
+          `Inglês: ${(71).toFixed(0)}%`
+        ].join('\n');
+      }else if(foco==='Assiduidade'){
+        detalhe += TURMAS.map(t=>`- ${t.nome}: ${t.assid}%`).join('\n');
+      }else{
+        detalhe += TURMAS.map(t=>`- ${t.nome}: média ${t.media}% | assiduidade ${t.assid}% | risco ${t.risco}`).join('\n');
+      }
+
+      relOut.textContent = [titulo, linha1, linha2, linha3, '', detalhe].join('\n');
+    });
+    document.getElementById('btnCopiar').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(relOut.textContent); alert('Relatório copiado.'); }
+      catch{ alert('Não foi possível copiar.'); }
+    });
+    document.getElementById('btnCSV').addEventListener('click', ()=>{
+      const rows = TURMAS.map(t=>({turma:t.nome,alunos:t.alunos,media:t.media,assiduidade:t.assid,risco:t.risco}));
+      download('relatorio_escola.csv', toCSV(rows), 'text/csv');
+    });
+    document.getElementById('btnPrint').addEventListener('click', ()=>{ window.print(); });
+    function labelPeriodo(p){ return p==='semana'?'Última semana':p==='mes'?'Último mês':'Período letivo'; }
+  </script>
+</body>
+</html>

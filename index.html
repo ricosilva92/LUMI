@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema LUMI – Escola do Futuro – Leiria</title>
+  <meta name="description" content="Aprendizagem adaptativa para cada aluno, com relatórios, alertas e modo offline." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="light-mode">
+  <a href="#main" class="skip-link">Saltar para conteúdo</a>
+
+  <!-- Header / Navbar -->
+  <header class="site-header">
+    <nav class="nav">
+      <a href="./index.html" class="logo" aria-label="Ir para início">
+        <img src="assets/img/horizontal.png" alt="LUMI" class="h-12 w-auto mr-3">
+        <span>LUMI</span>
+      </a>
+
+      <button class="menu-toggle" aria-controls="nav-links" aria-expanded="false">☰</button>
+
+      <div id="nav-links" class="nav-links">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#beneficios">Benefícios</a>
+        <a href="#faq">FAQ</a>
+        <a href="#privacidade">Privacidade</a>
+        <button id="toggle-theme" class="btn btn-secondary">🌙 Dark</button>
+        <a class="btn btn-accent" href="./login.html" rel="nofollow">Entrar</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Aprendizagem que se adapta a cada aluno.</h1>
+        <p class="hero__subtitle">
+          Plataforma educativa com IA para planos personalizados, relatórios em tempo real e modo offline.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn-accent" href="./login.html">Entrar</a>
+          <a class="btn btn-secondary" href="#como-funciona">Explorar demo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section id="como-funciona" class="section card">
+      <h2>Como funciona</h2>
+      <div class="grid grid-3">
+        <article class="feature">
+          <div class="feature__icon">👨‍🎓</div>
+          <h3>Alunos</h3>
+          <p>Roteiros adaptativos, feedback imediato e portefólio digital.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">👩‍🏫</div>
+          <h3>Professores</h3>
+          <p>Gestão de turma, alertas inteligentes e relatórios exportáveis.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__icon">👨‍👩‍👧‍👦</div>
+          <h3>Encarregados</h3>
+          <p>Resumo semanal, progresso visível e comunicação direta.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section id="beneficios" class="section card">
+      <h2>Benefícios</h2>
+      <div class="stats grid grid-4">
+        <div class="stat"><div class="stat__value">95%</div><div class="stat__label">Satisfação dos alunos</div></div>
+        <div class="stat"><div class="stat__value">87%</div><div class="stat__label">Melhoria no desempenho</div></div>
+        <div class="stat"><div class="stat__value">60%</div><div class="stat__label">Menos tempo de correção</div></div>
+        <div class="stat"><div class="stat__value">24/7</div><div class="stat__label">Acesso em qualquer lugar</div></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section card">
+      <h2>FAQ</h2>
+      <details><summary>O LUMI funciona offline?</summary><p>Sim. Guarda progresso localmente e sincroniza quando há rede.</p></details>
+      <details><summary>Como funciona a adaptação?</summary><p>O nível ajusta-se ao desempenho recente, garantindo desafio adequado.</p></details>
+      <details><summary>Os dados estão seguros?</summary><p>Encriptação e conformidade GDPR. Controlos de acesso por perfil.</p></details>
+    </section>
+
+    <!-- Privacidade -->
+    <section id="privacidade" class="section card">
+      <h2>Transparência & Privacidade (GDPR)</h2>
+      <p>Tratamento mínimo de dados, finalidades educativas e direitos de acesso, retificação e apagamento assegurados.</p>
+      <a class="btn btn-secondary" href="#/politica-privacidade">Saber mais</a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>Projeto Escola do Futuro – Leiria • 2025</p>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
+
+  <noscript>
+    <div class="noscript">Para a melhor experiência ativa o JavaScript.</div>
+  </noscript>
+
+  <!-- Dark mode script -->
+  <script>
+    document.getElementById("toggle-theme").addEventListener("click", function () {
+      const body = document.body;
+      body.classList.toggle("dark-mode");
+      body.classList.toggle("light-mode");
+      this.textContent = body.classList.contains("dark-mode") ? "☀️ Light" : "🌙 Dark";
+    });
+  </script>
+</body>
+</html>
